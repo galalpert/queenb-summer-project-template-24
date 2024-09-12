@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const rubberDucksRoutes = require('./routes/animalRoutes')
+const animalRoutes = require('./routes/animalRoutes')
 
 dotenv.config();
 

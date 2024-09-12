@@ -1,4 +1,4 @@
-const Animal = require('../models/animalController');
+const Animal = require('../models/AnimalModel');
 
 // get all animals
 const getAllAnimals = async (req, res) => {
