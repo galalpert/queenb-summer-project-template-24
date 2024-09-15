@@ -5,8 +5,12 @@ const { createAnimal,
     deleteAnimal,
     updateAnimal,
  } = require('../controllers/animalController')
+ const {getFilterPets, } = require('../controllers/filteringController') 
 
+ 
 const router = express.Router()
+
+router.get('/filter', getFilterPets)
 
 /**
  * Read Only Permission Routes
