@@ -10,7 +10,7 @@ function App() {
         <header className={styles.appHeader}>
           <img src="/project-logo.png" alt="Logo" className={styles.appLogo} />
           <nav className={styles.appNav}>
-            <Link to="/" className={styles.appLink}>Home</Link>
+            <Link to="/" className={styles.appLink}>Login/signin</Link>
           </nav>
         </header>
         <main className={styles.main}>
@@ -19,7 +19,7 @@ function App() {
           </Routes>
         </main>
         <footer className={styles.footer}>
-          <p>&copy; 2024 My App</p>
+          <p>&copy; Happily adopted</p>
         </footer>
       </div>
     </BrowserRouter>
