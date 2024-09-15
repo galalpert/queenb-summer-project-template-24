@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const rubberDucksRoutes = require('./routes/rubberDucks')
+const animalRoutes = require('./routes/animalRoutes')
 
 dotenv.config();
 
@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 })
 
 // Routes
-app.use('/api/rubberDucks', rubberDucksRoutes)
+app.use('/api/animals', animalRoutes)
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
