@@ -13,12 +13,13 @@
 }
 
 .appLogo {
-  height: 150px;
+  height: 120px;
 }
 
 .appNav {
   display: flex;
   gap: 20px;
+  
 }
 
 .appLink {
@@ -73,6 +74,7 @@ button {
   width: 90px;
   padding: 10px 0;
   transition: 0.4s;
+  color: #594a42
 }
 
 .reg {
@@ -86,7 +88,7 @@ button {
 }
 
 button:hover {
-  color: black;
+  color: #594a42;
   box-shadow: 0 0 20px rgb(255, 255, 255);
   background-color: #fcebd6;
 }
