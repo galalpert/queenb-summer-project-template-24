@@ -4,7 +4,7 @@
 }
 
 .appHeader {
-  background-color: #53474F;
+  background-color: #d3b8ae;
   padding: 5px 30px 5px 30px;
   color: white;
   display: flex;
@@ -13,7 +13,7 @@
 }
 
 .appLogo {
-  height: 100px;
+  height: 150px;
 }
 
 .appNav {
@@ -33,13 +33,13 @@
 
 .main {
   padding: 20px;
-  background-color: #FFDCE8;
+  background-color: #fcebd6;
   height: 100vh;
 }
 
 .footer {
   padding: 10px;
-  background-color: #53474F;
+  background-color: #d3b8ae;
   color: white;
   position: fixed;
   width: 100%;
@@ -47,3 +47,47 @@
   text-align: center;
 }
   
+body {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: #f0e4d7;
+  color: #594a42;
+}
+
+.container {
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  text-align: center;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+  border-radius: 4px;
+  font-weight: 600;
+  margin: 0 10px;
+  width: 90px;
+  padding: 10px 0;
+  transition: 0.4s;
+}
+
+.reg {
+  color: white;
+  background-color: #fcebd6;
+}
+
+.log {
+  background-color: rgba(255, 255, 255, 1);
+  border: 1px solid #fcebd6;
+}
+
+button:hover {
+  color: black;
+  box-shadow: 0 0 20px rgb(255, 255, 255);
+  background-color: #fcebd6;
+}
+
