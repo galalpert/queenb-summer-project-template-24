@@ -7,8 +7,8 @@ function App() {
   return (
     <BrowserRouter>
       <div className={styles.app}>
-        <header className={styles.appHeader}>
-          <img src="/project-logo.png" alt="Logo" className={styles.appLogo} />
+        <header className={styles.appHeader} >
+          <img src="/logo2.png" alt="Logo" className={styles.appLogo} />
           <nav className={styles.appNav}>
             <Link to="/" className={styles.appLink}>
               <button class="log">Login</button>
