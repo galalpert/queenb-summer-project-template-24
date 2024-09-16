@@ -1,131 +1,188 @@
 import { useState } from "react";
+import styles from "./UploadAnimalForm.module.css";
 
 const UploadAnimalForm = () => {
   // create states for each input data
-  const [name, setName] = useState('')
-  const [ageYears, setAgeYears] = useState('')
-  const [ageMonths, setAgeMonths] = useState('')
-  const [sex, setSex] = useState('')
-  const [media, setMedia] = useState('')
-  const [description, setDescription] = useState('')
-  const [areaOfAdoption, setAreaOfAdoption] = useState('')
-  const [color, setColor] = useState('')
-  const [getAlongWith, setGetAlongWith] = useState('')
-  const [breed, setBreed] = useState('')
-  const [healthCondition, setHealthCondition] = useState('')
-  const [spayOrNeuter, setSpayOrNeuter] = useState('')
+  const [name, setName] = useState('');
+  const [ageYears, setAgeYears] = useState(0);
+  const [ageMonths, setAgeMonths] = useState(0);
+  const [animal_type, setAnimalType] = useState('');
+  const [sex, setSex] = useState('');
+  const [images_and_videos, setImagesAndVideos] = useState([]);
+  const [description, setDescription] = useState('');
+  const [area_of_adoption, setAreaOfAdoption] = useState('');
+  const [color, setColor] = useState('');
+  const [get_along_with, setGetAlongWith] = useState('');
+  const [breed, setBreed] = useState('');
+  const [health_condition, setHealthCondition] = useState('');
+  const [spay_neuter, setSpayOrNeuter] = useState('');
+  const [error, setError] = useState('');
 
-  const [error, setError] = useState('')
-
-  const handleAnimalSubmit =async (e)=>{
-    e.preventDefault()
-
-    const animal = {name,color,breed}
-    //create a post request
-    const response = await fetch('/api/animals', {
-      method: 'POST',
-      body: JSON.stringify(animal),
-      headers: {
-        'Content-Type': 'application/json'
+  // Handle form submission
+  const handleAnimalSubmit = async (e) => {
+    e.preventDefault();
+  
+    const animal = {
+      name,
+      age: {
+        years: parseInt(ageYears, 10),
+        months: parseInt(ageMonths, 10),
+      },
+      sex,
+      animal_type,
+      images_and_videos,
+      description,
+      area_of_adoption,
+      color,
+      get_along_with,
+      breed,
+      health_condition,
+      spay_neuter
+    };
+    
+    try {
+      // Make the POST request to the server
+      const response = await fetch('http://localhost:5000/api/animals/', {
+        method: 'POST',
+        body: JSON.stringify(animal),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+  
+      // Check if the response is not OK
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error from server:', errorText);
+        setError(errorText);
+        return;
       }
-    } )
-
-    const json = await response.json()
-
-    if(!response.ok){
-      setError(json.error)
+  
+      // If response is OK, parse it as JSON
+      const json = await response.json();
+  
+      // reset form after successful response
+      setName('');
+      setAgeYears(0);
+      setAgeMonths(0);
+      setSex('');
+      setAnimalType('');
+      setImagesAndVideos([]);
+      setDescription('');
+      setAreaOfAdoption('');
+      setColor('');
+      setGetAlongWith('');
+      setBreed('');
+      setHealthCondition('');
+      setSpayOrNeuter('');
+      setError(null);
+      console.log("New animal added:", json);
+    } catch (err) {
+      console.error('Unexpected error:', err);
+      setError('Unable to submit the form. Please check your network or server.');
     }
-    if(response.ok){
-      //return to empty 
-      setName('')
-      setColor('')
-      setBreed('')
-      setError(null)
-      console.log("new animal added")
-    }
-  }
+  };
+
+  // Handle file input change
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    setImagesAndVideos(files.map(file => file.name)); // Save only file names
+  };
 
   return ( 
-    <form action="" className="create" onSubmit={handleAnimalSubmit}>
-      <h3>add a new animal!</h3>
-      <label>animal name:</label>
+    <form className={styles.create} onSubmit={handleAnimalSubmit}>
+      <h3>Add a New Animal!</h3>
+      <label>Animal Name:</label>
       <input
         type="text"
-        onChange={(e)=> setName(e.target.value)}
+        onChange={(e) => setName(e.target.value)}
         value={name}
+        required
       />
-      <label>Age years:</label>
+      <label>Age (Years):</label>
       <input
         type="number"
-        onChange={(e)=> setAgeYears(e.target.value)}
+        onChange={(e) => setAgeYears(e.target.value)}
         value={ageYears}
+        min="0"
       />
-      <label>Months:</label>
+      <label>Age (Months):</label>
       <input
         type="number"
-        onChange={(e)=> setAgeMonths(e.target.value)}
+        onChange={(e) => setAgeMonths(e.target.value)}
         value={ageMonths}
+        min="0"
+        max="11"
       />
-      <label>sex:</label>
+      <label>Sex:</label>
       <input
         type="text"
-        onChange={(e)=> setSex(e.target.value)}
+        onChange={(e) => setSex(e.target.value)}
         value={sex}
+        required
       />
-      <label>media:</label>
+      <label>Animal Type:</label>
       <input
         type="text"
-        onChange={(e)=> setMedia(e.target.value)}
-        value={media}
+        onChange={(e) => setAnimalType(e.target.value)}
+        value={animal_type}
+        required
       />
-      <label>description:</label>
+      <label>Upload Images and Videos:</label>
       <input
-        type="text"
-        onChange={(e)=> setDescription(e.target.value)}
+        type="file"
+        multiple
+        onChange={handleFileChange}
+      />
+      <label>Description:</label>
+      <textarea
+        onChange={(e) => setDescription(e.target.value)}
         value={description}
+        required
       />
-      <label>area Of Adoption:</label>
+      <label>Area of Adoption:</label>
       <input
         type="text"
-        onChange={(e)=> setAreaOfAdoption(e.target.value)}
-        value={areaOfAdoption}
+        onChange={(e) => setAreaOfAdoption(e.target.value)}
+        value={area_of_adoption}
+        required
       />
-      <label>color:</label>
+      <label>Color:</label>
       <input
         type="text"
-        onChange={(e)=> setColor(e.target.value)}
+        onChange={(e) => setColor(e.target.value)}
         value={color}
+        required
       />
-      <label>the animal get Along With:</label>
+      <label>Get Along With:</label>
       <input
         type="text"
-        onChange={(e)=> setGetAlongWith(e.target.value)}
-        value={getAlongWith}
+        onChange={(e) => setGetAlongWith(e.target.value)}
+        value={get_along_with}
       />
-      <label>breed:</label>
+      <label>Breed:</label>
       <input
         type="text"
-        onChange={(e)=> setBreed(e.target.value)}
+        onChange={(e) => setBreed(e.target.value)}
         value={breed}
       />
-      <label>health Condition:</label>
+      <label>Health Condition:</label>
       <input
         type="text"
-        onChange={(e)=> setHealthCondition(e.target.value)}
-        value={healthCondition}
+        onChange={(e) => setHealthCondition(e.target.value)}
+        value={health_condition}
       />
-      <label>spay/Neuter ?</label>
+      <label>Spay/Neuter:</label>
       <input
         type="text"
-        onChange={(e)=> setSpayOrNeuter(e.target.value)}
-        value={spayOrNeuter}
+        onChange={(e) => setSpayOrNeuter(e.target.value)}
+        value={spay_neuter}
       />
 
-      <button>Upload Animal</button>
-      {error && <div className="error">{error}</div>}
+      <button type="submit">Upload Animal</button>
+      {error && <div className={styles.error}>{error}</div>}
     </form>
+  );
+};
 
-   );
-}
- 
 export default UploadAnimalForm;

@@ -25,7 +25,7 @@ router.get('/:id', getSingleAnimal)
  * Read and Write Permission Routes
  */
 // POST a new animal
-router.post('/UploadAnimal', createAnimal)
+router.post('/', createAnimal)
 
 // DELETE a animal
 router.delete('/:id', deleteAnimal)
