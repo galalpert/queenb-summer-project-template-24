@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import Home from './pages/HomePage/HomePage';
+import UploadAnimal from './pages/HomePage/UploadAnimal';
 import styles from './styles/App.module.css';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <main className={styles.main}>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/UploadAnimal" element={<UploadAnimal />} />
           </Routes>
         </main>
         <footer className={styles.footer}>
