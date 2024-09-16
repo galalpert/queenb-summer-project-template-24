@@ -1,11 +1,11 @@
 const express = require('express');
-const { createAnimal,
-    getAllAnimals,
+const { getAllAnimals,
     getSingleAnimal,
     deleteAnimal,
     updateAnimal,
  } = require('../controllers/animalController')
  const {getFilterPets, } = require('../controllers/filteringController') 
+ const {createAnimal, } = require('../controllers/uploadAnimalController') 
 
  
 const router = express.Router()
@@ -25,7 +25,7 @@ router.get('/:id', getSingleAnimal)
  * Read and Write Permission Routes
  */
 // POST a new animal
-router.post('/', createAnimal)
+router.post('/UploadAnimal', createAnimal)
 
 // DELETE a animal
 router.delete('/:id', deleteAnimal)
