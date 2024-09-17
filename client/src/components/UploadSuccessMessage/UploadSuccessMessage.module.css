@@ -1,0 +1,26 @@
+/* Title styling */
+.title {
+  text-align: center;
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+
+.submitButton button {
+  padding: 10px 20px; /* Adjust padding for better sizing */
+  color: rgb(233, 223, 238); /* Text color */
+  background-color: #ee0bd0; /* Background color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  max-width: 200px;
+  margin: 0 auto; 
+  display: block; 
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.submitButton:hover button {
+  background-color: #d200c0; /* Darker background color on hover */
+}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./UploadAnimalForm.module.css";
 
-const UploadAnimalForm = () => {
+const UploadAnimalForm = ({onSubmissionSuccess}) => {
   // create states for each input data
   const [name, setName] = useState('');
   const [ageYears, setAgeYears] = useState(0);
@@ -18,9 +18,10 @@ const UploadAnimalForm = () => {
   const [spay_neuter, setSpayOrNeuter] = useState('');
   const [error, setError] = useState('');
 
+
   // Handle form submission
   const handleAnimalSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); //don't refresh the page
   
     const animal = {
       name,
@@ -77,24 +78,26 @@ const UploadAnimalForm = () => {
       setSpayOrNeuter('');
       setError(null);
       console.log("New animal added:", json);
+
+      onSubmissionSuccess()  //changed status to submitted
     } catch (err) {
       console.error('Unexpected error:', err);
       setError('Unable to submit the form. Please check your network or server.');
     }
   };
 
-  // Handle file input change
+  // Handle images input change
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
-    setImagesAndVideos(files.map(file => file.name)); // Save only file names
+    setImagesAndVideos(files.map(file => file.name)); 
   };
 
   // Generate arrays for dropdown options
-  const years = Array.from({ length: 31 }, (_, i) => i); // 0 to 30 years
+  const years = Array.from({ length: 51 }, (_, i) => i); // 0 to 50 years
   const months = Array.from({ length: 12 }, (_, i) => i); // 0 to 11 months
 
 
-  return ( 
+  return (
     <form className={styles.form} onSubmit={handleAnimalSubmit}>
       <h3 className={styles.title}>Add a New Animal!</h3>
       <div className={styles.field}>
