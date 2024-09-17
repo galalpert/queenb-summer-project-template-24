@@ -1,12 +1,24 @@
-import React from 'react';
+import { useState } from "react";
 import styles from './UploadAnimal.module.css';
 import UploadAnimalForm from '../../components/UploadAnimalForm/UploadAnimalForm';
+import UploadSuccessMessage from '../../components/UploadSuccessMessage/UploadSuccessMessage';
 
 const UploadAnimal = () => {
+
+  const [submissionData, setSubmissionData] = useState("");
+
+  // Function to handle submission status
+  const handleSubmissionSuccess = (data) => {
+    setSubmissionData(data);
+  };
+
   return (
     <div className={styles.UploadAnimal}>
-      <h1 className={styles.headline}>Upload page</h1>
-      <UploadAnimalForm/>
+      {submissionData ? (
+         <UploadSuccessMessage name={submissionData.name} images={submissionData.images_and_videos} onSubmissionSuccess={handleSubmissionSuccess} />
+      ) : (
+        <UploadAnimalForm onSubmissionSuccess={handleSubmissionSuccess} />
+      )}
     </div>
   );
 }
