@@ -78,8 +78,8 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
       setSpayOrNeuter('');
       setError(null);
       console.log("New animal added:", json);
-
-      onSubmissionSuccess()  //changed status to submitted
+      const image = images_and_videos[0]; //get profile image
+      onSubmissionSuccess({ name, image })  //changed status to submitted and pass name and image
     } catch (err) {
       console.error('Unexpected error:', err);
       setError('Unable to submit the form. Please check your network or server.');
