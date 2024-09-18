@@ -35,7 +35,8 @@
 .main {
   padding: 20px;
   background-color: #fcebd6;
-  height: 100vh;
+  min-height: calc(120vh - 60px); /* Adjusted height to ensure space for footer */
+  box-sizing: border-box; /* Include padding in height calculation */
 }
 
 .footer {
@@ -46,6 +47,7 @@
   width: 100%;
   bottom: 0;
   text-align: center;
+  box-sizing: border-box; /* Include padding in width calculation */
 }
   
 body {
