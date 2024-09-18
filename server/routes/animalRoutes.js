@@ -1,11 +1,11 @@
 const express = require('express');
-const { createAnimal,
-    getAllAnimals,
+const { getAllAnimals,
     getSingleAnimal,
     deleteAnimal,
     updateAnimal,
  } = require('../controllers/animalController')
  const {filterAndSortPets, } = require('../controllers/filteringAndSortingController') 
+ const {createAnimal, } = require('../controllers/uploadAnimalController') 
 
  
 const router = express.Router()
