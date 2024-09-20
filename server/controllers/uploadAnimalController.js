@@ -4,7 +4,6 @@ let animalIdCounter = 0;
 //initialize id counter
 const InitializeAnimalIdCounter = async () => {
 
-  console.log("in initialize");
   try {
     // Find the latest animal by sorting animal_id in descending order
     const lastAnimal = await Animal.findOne().sort({ animal_id: -1 }).exec();

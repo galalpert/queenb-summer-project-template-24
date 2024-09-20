@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./UploadAnimalForm.module.css";
 
 const UploadAnimalForm = ({onSubmissionSuccess}) => {
+
+  // State for validation error
+  const [validationError, setValidationError] = useState('');
+
   // create states for each input data
   const [name, setName] = useState('');
   const [ageYears, setAgeYears] = useState(0);
@@ -22,6 +26,12 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
   // Handle form submission
   const handleAnimalSubmit = async (e) => {
     e.preventDefault(); //don't refresh the page
+
+    // Check required fields
+    if (!name || !animal_type || !sex || !description || !area_of_adoption || !color) {
+      setValidationError('Not all required fields are filled.');
+      return;
+    }
   
     const animal = {
       name,
@@ -40,7 +50,7 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
       health_condition,
       spay_neuter
     };
-    
+
     try {
       // Make the POST request to the server
       const response = await fetch('http://localhost:5000/api/animals/', {
@@ -92,16 +102,43 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
     setImagesAndVideos(files.map(file => file.name)); 
   };
 
-  // Generate arrays for dropdown options
+  // Generate arrays for age dropdown options
   const years = Array.from({ length: 51 }, (_, i) => i); // 0 to 50 years
   const months = Array.from({ length: 12 }, (_, i) => i); // 0 to 11 months
 
+  // Cities for the form
+  const [cities, setCities] = useState([]);
+
+  useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        const response = await fetch('https://countriesnow.space/api/v0.1/countries/cities', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ country: "Israel" }), // Change the country to Israel
+        });
+  
+        const result = await response.json();
+        if (result && !result.error) {
+          setCities(result.data); 
+        } else {
+          console.error('Error fetching cities:', result.msg);
+        }
+      } catch (err) {
+        console.error("Error fetching cities:", err);
+      }
+    };
+  
+    fetchCities();
+  }, []);
 
   return (
-    <form className={styles.form} onSubmit={handleAnimalSubmit}>
+    <form className={styles.form} onSubmit={handleAnimalSubmit} noValidate>
       <h3 className={styles.title}>Add a New Animal!</h3>
       <div className={styles.field}>
-        <label>Animal Name:</label>
+        <label>Animal Name*</label>
         <input
           type="text"
           onChange={(e) => setName(e.target.value)}
@@ -110,7 +147,7 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
         />
       </div>
       <div className={styles.field}>
-        <label>Age:</label>
+        <label>Age</label>
         <div className={styles.ageFields}>
           <select
             onChange={(e) => setAgeYears(e.target.value)}
@@ -133,25 +170,40 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
         </div>
       </div>
       <div className={styles.field}>
-        <label>Sex:</label>
-        <input
-          type="text"
+        <label>Sex*</label>
+        <select
           onChange={(e) => setSex(e.target.value)}
           value={sex}
-          required
-        />
+        >
+          <option value="" disabled>Select Sex</option>
+          <option value="Female">Female</option>
+          <option value="Male">Male</option>
+          <option value="Don't know">Don't know</option>
+        </select>
       </div>
       <div className={styles.field}>
-        <label>Animal Type:</label>
-        <input
-          type="text"
+        <label>Animal Type*</label>
+        <select
           onChange={(e) => setAnimalType(e.target.value)}
           value={animal_type}
-          required
-        />
+        >
+          <option value="" disabled>Select Animal Type</option>
+          <option value="Dog">Dog</option>
+          <option value="Cat">Cat</option>
+          <option value="Rabbit">Rabbit</option>
+          <option value="Guinea Pig">Guinea Pig</option>
+          <option value="Hamster">Hamster</option>
+          <option value="Bird">Bird</option>
+          <option value="Fish">Fish</option>
+          <option value="Reptile">Reptile</option>
+          <option value="Horse">Horse</option>
+          <option value="Goat">Goat</option>
+          <option value="Chicken">Chicken</option>
+          <option value="Other">Chicken</option>
+        </select>
       </div>
       <div className={styles.field}>
-        <label>Description:</label>
+        <label>Description*</label>
         <textarea
           onChange={(e) => setDescription(e.target.value)}
           value={description}
@@ -159,16 +211,20 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
         />
       </div>
       <div className={styles.field}>
-        <label>Area of Adoption:</label>
-        <input
-          type="text"
+        <label>Area of Adoption*</label>
+        <select
           onChange={(e) => setAreaOfAdoption(e.target.value)}
           value={area_of_adoption}
           required
-        />
+        >
+          <option value="" disabled>Select City</option>
+          {cities.map((city, index) => (
+            <option key={index} value={city}>{city}</option>
+          ))}
+        </select>
       </div>
       <div className={styles.field}>
-        <label>Color:</label>
+        <label>Color*</label>
         <input
           type="text"
           onChange={(e) => setColor(e.target.value)}
@@ -177,7 +233,7 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
         />
       </div>
       <div className={styles.field}>
-        <label>Get Along With:</label>
+        <label>Get Along With</label>
         <input
           type="text"
           onChange={(e) => setGetAlongWith(e.target.value)}
@@ -185,7 +241,7 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
         />
       </div>
       <div className={styles.field}>
-        <label>Breed:</label>
+        <label>Breed</label>
         <input
           type="text"
           onChange={(e) => setBreed(e.target.value)}
@@ -193,7 +249,7 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
         />
       </div>
       <div className={styles.field}>
-        <label>Health Condition:</label>
+        <label>Health Condition</label>
         <input
           type="text"
           onChange={(e) => setHealthCondition(e.target.value)}
@@ -201,7 +257,7 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
         />
       </div>
       <div className={styles.field}>
-        <label>Spay/Neuter:</label>
+        <label>Spay/Neuter</label>
         <input
           type="text"
           onChange={(e) => setSpayOrNeuter(e.target.value)}
@@ -209,13 +265,14 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
         />
       </div>
       <div className={styles.field}>
-        <label>Upload Images and Videos:</label>
+        <label>Upload Images and Videos</label>
         <input
           type="file"
           multiple
           onChange={handleFileChange}
         />
       </div>
+      {validationError && <div className={styles.validationError}>{validationError}</div>}
       <div className={styles.submitButton}>
       <button type="submit">Upload Animal</button>
       </div>
