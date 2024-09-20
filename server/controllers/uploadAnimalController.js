@@ -1,4 +1,32 @@
 const Animal = require('../models/AnimalModel');
+let animalIdCounter = 0;
+
+//initialize id counter
+const InitializeAnimalIdCounter = async () => {
+
+  console.log("in initialize");
+  try {
+    // Find the latest animal by sorting animal_id in descending order
+    const lastAnimal = await Animal.findOne().sort({ animal_id: -1 }).exec();
+    
+    // If no animal is found, return 0 (first entry)
+    if (!lastAnimal) {
+      return 0;
+    }
+    
+    return lastAnimal.animal_id;
+
+  } catch (err) {
+    console.error('Error fetching last animal ID:', err);
+    throw new Error('Failed to fetch last animal ID');
+  }
+};
+
+//initialize counter from DB before the first post req
+(async () => {
+  animalIdCounter = await InitializeAnimalIdCounter();
+})();
+
 
 const createAnimal = async (req, res) => {
   // Extract fields from the request body
@@ -17,11 +45,15 @@ const createAnimal = async (req, res) => {
     health_condition,
     spay_neuter
   } = req.body;
+
+  //animal id counter
+  const animal_id = ++animalIdCounter;
   
   try {
     // Create a new animal
     const animal = await Animal.create({
-      // required fileds
+      // required fields
+      animal_id,
       name,
       age: {
         years: parseInt(ageYears, 10) || 0, // Default to 0
@@ -48,6 +80,7 @@ const createAnimal = async (req, res) => {
     res.status(400).json({ message: 'Error creating animal', error: err.message });
   }
 };
+
 
 module.exports = {
   createAnimal,
