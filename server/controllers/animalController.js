@@ -4,8 +4,8 @@ const Animal = require('../models/AnimalModel');
 // get all animals
 const getAllAnimals = async (req, res) => {
     try {
-        const animal = await Animal.find();
-        res.status(200).json({animal});
+        const animals = await Animal.find();
+        res.status(200).json(animals);
     } catch (err) {
         res.status(400).json({mssg: 'error getting animal', err})
     }

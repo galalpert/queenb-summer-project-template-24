@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const animalRoutes = require('./routes/animalRoutes')
-const authRoutes = require('./routes/userRoutes');
+//const authRoutes = require('./routes/userRoutes');
 
 dotenv.config();
 
@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/api/animals', animalRoutes)
-app.use('/api/auth', authRoutes)
+//app.use('/api/auth', authRoutes)
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)

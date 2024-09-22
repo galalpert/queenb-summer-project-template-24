@@ -4,12 +4,12 @@ import api from '../services/api';
 const AnimalContext = createContext();
 
 const AnimalProvider = ({ children }) => {
-    const [animal, setAnimal] = useState(null);
+    const [animals, setAnimals] = useState(null);
 
     const getAllAnimals= async () => {
         try {
-            const response = await api.get('/animalRoutes/');
-            setAnimal(response.data);
+            const response = await api.get('/animals/');
+            setAnimals(response.data);
         } catch (error) {
             console.error('Error fetching the animals:', error);
         }
@@ -20,7 +20,7 @@ const AnimalProvider = ({ children }) => {
     }, []);
 
     return (
-        <AnimalContext.Provider value={{ animal, getAllAnimals }}>
+        <AnimalContext.Provider value={{ animals, getAllAnimals }}>
             {children}
         </AnimalContext.Provider>
     );
