@@ -2,13 +2,32 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles/global.css'; 
 import App from './App';
-import { DuckProvider } from './context/DuckContext';
+import { AnimalProvider } from './context/AnimalContext';
+import AnimalList from './components/AnimalsList/AnimalList'
+
+/*
+function Home ({animals}) {
+  return <AnimalList data={animals} />;
+}
+
+export default Home;
+
+export const getStaticProps = async() => {
+  const animals = await getAllAnimals();
+  return {
+    props: {
+      animals,
+    },
+  };
+};*/
+
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <DuckProvider>
+    <AnimalProvider>
       <App /> 
-    </DuckProvider>
+    </AnimalProvider>
   </React.StrictMode>
 );
