@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const animalRoutes = require('./routes/animalRoutes')
-const authRoutes = require('./routes/userRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 dotenv.config();
 
@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/api/animals', animalRoutes)
-app.use('/api/auth', authRoutes)
+app.use('/api/user', userRoutes)
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
@@ -34,6 +34,7 @@ mongoose.connect(process.env.MONGO_URI)
     // listen for requests
     app.listen(PORT, () => {
       console.log('connected to mongoDB & listening on port', process.env.PORT)
+
     })
   }).catch((err) => {
     console.log(err)

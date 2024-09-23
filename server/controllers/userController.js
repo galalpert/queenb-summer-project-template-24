@@ -1,6 +1,8 @@
 const User = require('../models/UserModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { v4: uuidv4 } = require('uuid');
+
 
 // Sign-in controller function
 const signIn = async (req, res) => {
@@ -32,7 +34,6 @@ const signIn = async (req, res) => {
 // Signup controller function
 const signUp = async (req, res) => {
   const { email, password, name, phone_number, city, country } = req.body;
-
   try {
     // Check if user already exists
     const userExists = await User.findOne({ email });
@@ -46,6 +47,7 @@ const signUp = async (req, res) => {
 
     // Create new user
     const newUser = new User({
+      user_id: uuidv4(), 
       name,
       email,
       password: hashedPassword,
@@ -64,6 +66,7 @@ const signUp = async (req, res) => {
     // Respond with the authToken
     res.status(201).json({ authToken });
   } catch (error) {
+
     res.status(500).send('Server error');
   }
 };
