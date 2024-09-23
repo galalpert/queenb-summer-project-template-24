@@ -27,6 +27,7 @@ const AnimalSchema = new Schema({
     },
     sex: {
       type: String,
+      enum: ['male', 'female', 'unknown'],
       required: true
     },
     animal_type: {
