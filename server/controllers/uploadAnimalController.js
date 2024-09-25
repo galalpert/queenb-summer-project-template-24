@@ -35,7 +35,7 @@ const createAnimal = async (req, res) => {
     ageMonths,
     sex,
     animal_type,
-    images_and_videos,
+    //images_and_videos,
     description,
     area_of_adoption,
     color,
@@ -44,6 +44,9 @@ const createAnimal = async (req, res) => {
     health_condition,
     spay_neuter
   } = req.body;
+
+  // Access uploaded files from multer
+  const images_and_videos = req.files.map(file => file.filename);
 
   //animal id counter
   const animal_id = ++animalIdCounter;
@@ -60,7 +63,7 @@ const createAnimal = async (req, res) => {
       },
       sex,
       animal_type,
-      images_and_videos: Array.isArray(images_and_videos) ? images_and_videos : [], // Ensure this is an array
+      images_and_videos, //: Array.isArray(images_and_videos) ? images_and_videos : [], // Ensure this is an array
       description,
       area_of_adoption,
       color,

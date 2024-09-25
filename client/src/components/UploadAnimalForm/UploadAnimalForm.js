@@ -49,32 +49,30 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
       return;
     }
   
-    const animal = {
-      name,
-      age: {
-        years: parseInt(ageYears, 10),
-        months: parseInt(ageMonths, 10),
-      },
-      sex,
-      animal_type,
-      images_and_videos,
-      description,
-      area_of_adoption,
-      color,
-      get_along_with,
-      breed,
-      health_condition,
-      spay_neuter
-    };
+    const formData = new FormData();
+  
+    // Append fields to formData
+    formData.append('name', name);
+    formData.append('ageYears', ageYears);
+    formData.append('ageMonths', ageMonths);
+    formData.append('sex', sex);
+    formData.append('animal_type', animal_type);
+    formData.append('description', description);
+    formData.append('area_of_adoption', area_of_adoption);
+    formData.append('color', color);
+    formData.append('get_along_with', get_along_with);
+    formData.append('breed', breed);
+    formData.append('health_condition', health_condition);
+    formData.append('spay_neuter', spay_neuter);
+    images_and_videos.forEach((file) => {
+      formData.append('images_and_videos', file);
+    });
 
     try {
       // Make the POST request to the server
       const response = await fetch('http://localhost:5000/api/animals/', {
         method: 'POST',
-        body: JSON.stringify(animal),
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        body: formData,
       });
   
       // Check if the response is not OK
@@ -113,9 +111,9 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
   };
 
   // Handle images input change
-  const handleFileChange = (e) => {
+  const handleFiles = (e) => {
     const files = Array.from(e.target.files);
-    setImagesAndVideos(files.map(file => file.name)); 
+    setImagesAndVideos(files); 
   };
 
   // Generate arrays for age dropdown options
@@ -283,7 +281,7 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
         <input
           type="file"
           multiple
-          onChange={handleFileChange}
+          onChange={handleFiles}
         />
       </div>
       {validationError && <div className={styles.validationError}>{validationError}</div>}
