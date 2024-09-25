@@ -24,6 +24,7 @@ app.use((req, res, next) => {
   next()
 })
 
+
 // Routes
 app.use('/api/animals', animalRoutes)
 app.use('/api/user', userRoutes)
@@ -39,3 +40,4 @@ mongoose.connect(process.env.MONGO_URI)
   }).catch((err) => {
     console.log(err)
   });
+
