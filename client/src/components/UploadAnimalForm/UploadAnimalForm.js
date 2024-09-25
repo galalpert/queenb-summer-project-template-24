@@ -1,6 +1,22 @@
 import { useEffect, useState } from "react";
 import styles from "./UploadAnimalForm.module.css";
 
+const animalOptions = [
+  { value: "", label: "", disabled: true, hidden: true }, 
+  { value: "Dog", label: "Dog" },
+  { value: "Cat", label: "Cat" },
+  { value: "Rabbit", label: "Rabbit" },
+  { value: "Guinea Pig", label: "Guinea Pig" },
+  { value: "Hamster", label: "Hamster" },
+  { value: "Bird", label: "Bird" },
+  { value: "Fish", label: "Fish" },
+  { value: "Reptile", label: "Reptile" },
+  { value: "Horse", label: "Horse" },
+  { value: "Goat", label: "Goat" },
+  { value: "Chicken", label: "Chicken" },
+  { value: "Other", label: "Other" },
+];
+
 const UploadAnimalForm = ({onSubmissionSuccess}) => {
 
   // State for validation error
@@ -8,8 +24,8 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
 
   // create states for each input data
   const [name, setName] = useState('');
-  const [ageYears, setAgeYears] = useState(0);
-  const [ageMonths, setAgeMonths] = useState(0);
+  const [ageYears, setAgeYears] = useState('');
+  const [ageMonths, setAgeMonths] = useState('');
   const [animal_type, setAnimalType] = useState('');
   const [sex, setSex] = useState('');
   const [images_and_videos, setImagesAndVideos] = useState([]);
@@ -175,31 +191,24 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
           onChange={(e) => setSex(e.target.value)}
           value={sex}
         >
-          <option value="" disabled>Select Sex</option>
+          <option value="" disabled hidden></option>
           <option value="Female">Female</option>
           <option value="Male">Male</option>
-          <option value="Don't know">Don't know</option>
         </select>
       </div>
       <div className={styles.field}>
         <label>Animal Type*</label>
-        <select
-          onChange={(e) => setAnimalType(e.target.value)}
-          value={animal_type}
-        >
-          <option value="" disabled>Select Animal Type</option>
-          <option value="Dog">Dog</option>
-          <option value="Cat">Cat</option>
-          <option value="Rabbit">Rabbit</option>
-          <option value="Guinea Pig">Guinea Pig</option>
-          <option value="Hamster">Hamster</option>
-          <option value="Bird">Bird</option>
-          <option value="Fish">Fish</option>
-          <option value="Reptile">Reptile</option>
-          <option value="Horse">Horse</option>
-          <option value="Goat">Goat</option>
-          <option value="Chicken">Chicken</option>
-          <option value="Other">Chicken</option>
+        <select onChange={(e) => setAnimalType(e.target.value)} value={animal_type}>
+          {animalOptions.map((animal, index) => (
+            <option 
+              key={index} 
+              value={animal.value} 
+              disabled={animal.disabled} 
+              hidden={animal.hidden}
+            >
+              {animal.label}
+            </option>
+          ))}
         </select>
       </div>
       <div className={styles.field}>
@@ -217,7 +226,7 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
           value={area_of_adoption}
           required
         >
-          <option value="" disabled>Select City</option>
+          <option value="" disabled hidden></option>
           {cities.map((city, index) => (
             <option key={index} value={city}>{city}</option>
           ))}
@@ -258,11 +267,16 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
       </div>
       <div className={styles.field}>
         <label>Spay/Neuter</label>
-        <input
+        <select
           type="text"
           onChange={(e) => setSpayOrNeuter(e.target.value)}
           value={spay_neuter}
-        />
+        >
+          <option value="" disabled hidden></option>
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+          <option value="Don't know">Don't Know</option>
+        </select>
       </div>
       <div className={styles.field}>
         <label>Upload Images and Videos</label>
