@@ -1,24 +1,25 @@
 import React, { useContext } from 'react';
-import styles from '/DispalyAnimals.module.css';
-import { DuckContext } from '../../context/DuckContext';
-import FirstButton from '../common/FirstButton/FirstButton';
+import styles from './DisplayAnimals.module.css';
+import { AnimalContext } from '../../context/AnimalContext';
+import AnimalItem from '../AnimalItem/AnimalItem'
 
-const RandomDuck = () => {
-  const { duck, getRandomDuck } = useContext(DuckContext);
 
-  if (!duck) return null;
+const DispalyAnimals = () => {
+  debugger;
+  const { animals, getAllAnimals} = useContext(AnimalContext);
+
+  if (!animals) return null;
+
+  console.log("animals", animals)
 
   return (
     <div className={styles.container}>
-      <FirstButton onClick={getRandomDuck}>Show Random Duck</FirstButton>
-      {duck && (
-          <div className={styles.duck}>
-            <h2 className={styles.duckName}>{duck.name}</h2>
-            {duck.imageUrl && <img src={duck.imageUrl} alt={duck.name} className={styles.img} />}
-          </div>
-        )}
+        {animals && animals.map((animals) =>(
+                <AnimalItem key={animals.id} animals={animals}/> )
+          )}
     </div>
+    
   );
 };
 
-export default RandomDuck;
+export default DispalyAnimals;
