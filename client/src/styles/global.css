@@ -3,12 +3,17 @@
 body {
     margin: 0;
     font-family: "Poppins";
+    color: #594a42;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
   
   code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  }
+
+  .headline {
+    color: #594a42;
   }
   
 
@@ -30,6 +35,7 @@ header .container {
   margin: 0 auto;
   padding: 10px 20px;
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
 }
@@ -46,8 +52,6 @@ header a {
 
 /* homepage */
 .home {
-  display: grid;
-  grid-template-columns: 3fr 1fr;
   gap: 100px;
 }
 
