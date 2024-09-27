@@ -1,21 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./UploadAnimalForm.module.css";
-
-const animalOptions = [
-  { value: "", label: "", disabled: true, hidden: true }, 
-  { value: "Dog", label: "Dog" },
-  { value: "Cat", label: "Cat" },
-  { value: "Rabbit", label: "Rabbit" },
-  { value: "Guinea Pig", label: "Guinea Pig" },
-  { value: "Hamster", label: "Hamster" },
-  { value: "Bird", label: "Bird" },
-  { value: "Fish", label: "Fish" },
-  { value: "Reptile", label: "Reptile" },
-  { value: "Horse", label: "Horse" },
-  { value: "Goat", label: "Goat" },
-  { value: "Chicken", label: "Chicken" },
-  { value: "Other", label: "Other" },
-];
+import { animalOptions } from "../../context/AnimalContext"; 
 
 const UploadAnimalForm = ({onSubmissionSuccess}) => {
 
@@ -46,7 +31,7 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
     setIsSubmitted(true);
 
     // Check required fields
-    if (!name || !animal_type || !sex || !description || !area_of_adoption || !color ||(images_and_videos.length == 0)) {
+    if (!name || !animal_type || !sex || !description || !area_of_adoption || !color ||(images_and_videos.length === 0) || (!ageMonths && !ageYears)) {
       setValidationError('Not all required fields are filled.');
       return;
     }
@@ -170,7 +155,7 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
       </div>
       <div className={styles.field}>
         <label className={`${!ageMonths && !ageYears && isSubmitted ? styles.errorLabel : styles.label}`}>
-          Age
+          Age*
         </label>
         <div className={styles.ageFields}>
           <select
@@ -297,7 +282,7 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
         </select>
       </div>
       <div className={styles.field}>
-        <label className={`${(images_and_videos.length==0) && isSubmitted ? styles.errorLabel : styles.label}`}>
+        <label className={`${(images_and_videos.length===0) && isSubmitted ? styles.errorLabel : styles.label}`}>
           Upload Images and Videos
         </label>
         <input
