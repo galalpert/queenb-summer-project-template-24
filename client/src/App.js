@@ -40,20 +40,21 @@ import UploadAnimal from './pages/UploadAnimalPage/UploadAnimal';  // Keeping th
 import SignUpPage from './pages/SignUpPage/SignUpPage';  // Import Sign Up page
 import LoginPage from './pages/LoginPage/LoginPage';     // Import Login page
 import styles from './styles/App.module.css';
+import NavButton from './components/common/NavButton/NavButton';
 
 function App() {
   return (
     <BrowserRouter>
       <div className={styles.app}>
         <header className={styles.appHeader}>
-          <img src="/logo2.png" alt="Logo" className={styles.appLogo} />
+          <img src="/logo.png" alt="Logo" className={styles.appLogo} />
           <nav className={styles.appNav}>
-            {/* Links for Login and Sign Up */}
-            <Link to="/login" className={styles.appLink}>
-              <button className={styles.log}>Login</button>  {/* Link to Login page */}
+            <Link to="/" className={styles.appLink}>
+              <NavButton>Login</NavButton>
+              <NavButton>Sign up</NavButton>
             </Link>
-            <Link to="/signup" className={styles.appLink}>
-              <button className={styles.reg}>Sign up</button>  {/* Link to Sign Up page */}
+            <Link to="/UploadAnimal" className={styles.appLink}>
+              <NavButton>Upload Animal</NavButton>
             </Link>
           </nav>
         </header>
