@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext , useState } from "react";
 import styles from "./UploadAnimalForm.module.css";
-import { animalOptions } from "../../context/AnimalContext"; 
+import { animalOptions, AnimalContext} from "../../context/AnimalContext"; 
 
 const UploadAnimalForm = ({onSubmissionSuccess}) => {
 
@@ -111,33 +111,8 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
   const years = Array.from({ length: 51 }, (_, i) => i); // 0 to 50 years
   const months = Array.from({ length: 12 }, (_, i) => i); // 0 to 11 months
 
-  // Cities for the form
-  const [cities, setCities] = useState([]);
-
-  useEffect(() => {
-    const fetchCities = async () => {
-      try {
-        const response = await fetch('https://countriesnow.space/api/v0.1/countries/cities', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ country: "Israel" }), // Change the country to Israel
-        });
-  
-        const result = await response.json();
-        if (result && !result.error) {
-          setCities(result.data); 
-        } else {
-          console.error('Error fetching cities:', result.msg);
-        }
-      } catch (err) {
-        console.error("Error fetching cities:", err);
-      }
-    };
-  
-    fetchCities();
-  }, []);
+  // Access cities from context
+  const { cities } = useContext(AnimalContext); 
 
   return (
     <form className={styles.form} onSubmit={handleAnimalSubmit} noValidate>

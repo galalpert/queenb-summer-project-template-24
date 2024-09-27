@@ -5,6 +5,7 @@ const AnimalContext = createContext();
 
 const AnimalProvider = ({ children }) => {
     const [animals, setAnimals] = useState(null);
+    const [cities, setCities] = useState([]); 
 
     const getAllAnimals= async () => {
         try {
@@ -15,12 +16,34 @@ const AnimalProvider = ({ children }) => {
         }
     };
 
+    // Fetch cities for Israel
+    const fetchCities = async () => {
+        try {
+            const response = await fetch('https://countriesnow.space/api/v0.1/countries/cities', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ country: "Israel" }),
+            });
+            const result = await response.json();
+            if (result && !result.error) {
+                setCities(result.data);
+            } else {
+                console.error('Error fetching cities:', result.msg);
+            }
+        } catch (err) {
+            console.error("Error fetching cities:", err);
+        }
+    };
+
     useEffect(() => {
         getAllAnimals();
+        fetchCities();
     }, []);
 
     return (
-        <AnimalContext.Provider value={{ animals, getAllAnimals }}>
+        <AnimalContext.Provider value={{ animals, getAllAnimals, cities }}>
             {children}
         </AnimalContext.Provider>
     );
