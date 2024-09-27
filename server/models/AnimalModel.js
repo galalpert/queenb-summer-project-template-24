@@ -34,9 +34,10 @@ const AnimalSchema = new Schema({
       type: String,
       required: true
     },
-    images_and_videos: [{
-      type: String
-    }],
+    images_and_videos: {
+      type: [String],
+      required: true,
+    },
     description: {
       type: String,
       required: true

@@ -44,7 +44,7 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
     e.preventDefault(); //don't refresh the page
 
     // Check required fields
-    if (!name || !animal_type || !sex || !description || !area_of_adoption || !color) {
+    if (!name || !animal_type || !sex || !description || !area_of_adoption || !color ||(images_and_videos.length == 0)) {
       setValidationError('Not all required fields are filled.');
       return;
     }
@@ -85,7 +85,8 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
   
       // If response is OK, parse it as JSON
       const json = await response.json();
-  
+      const { animal } = json;
+
       // reset form after successful response
       setName('');
       setAgeYears(0);
@@ -102,8 +103,8 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
       setSpayOrNeuter('');
       setError(null);
       console.log("New animal added:", json);
-      const image = images_and_videos[0]; //get profile image
-      onSubmissionSuccess({ name, image })  //changed status to submitted and pass name and image
+      const image = images_and_videos[0].name; //get profile image
+      onSubmissionSuccess({ name, image, animal_id: animal.animal_id })  //changed status to submitted and pass param
     } catch (err) {
       console.error('Unexpected error:', err);
       setError('Unable to submit the form. Please check your network or server.');
@@ -282,6 +283,7 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
           type="file"
           multiple
           onChange={handleFiles}
+          required
         />
       </div>
       {validationError && <div className={styles.validationError}>{validationError}</div>}
