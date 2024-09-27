@@ -6,7 +6,7 @@
 }
 
 .appHeader {
-  background-color: #d3b8ae;
+  background-color: #987070;
   padding: 5px 30px 5px 30px;
   color: white;
   display: flex;
@@ -21,7 +21,6 @@
 .appNav {
   display: flex;
   gap: 20px;
-  
 }
 
 .appLink:hover {
@@ -30,15 +29,15 @@
 
 .main {
   padding: 20px;
-  background-color: #fcebd6;
+  background-color: #FFF0D1;
   min-height: calc(120vh - 60px); /* Adjusted height to ensure space for footer */
   box-sizing: border-box; /* Include padding in height calculation */
 }
 
 .footer {
   padding: 10px;
-  background-color: #d3b8ae;
-  color: white;
+  background-color: #987070;
+  color: #FFF0D1;
   position: fixed;
   width: 100%;
   bottom: 0;

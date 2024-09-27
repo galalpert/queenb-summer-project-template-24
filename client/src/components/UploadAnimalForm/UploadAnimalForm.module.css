@@ -1,22 +1,23 @@
 .form {
   max-width: 600px;
-  margin: 0 auto;
+  margin: 0 auto 80px;
   padding: 20px;
-  background-color: #e6bae6;
+  background-color: #795757;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(17, 10, 15, 0.1);
   display: flex;
   flex-direction: column;
   gap: 15px;
-  position: relative; 
+  position: relative;
 }
 
 /* Title styling */
 .title {
   text-align: center;
   font-size: 24px;
-  color: #333;
+  color: #FFF0D1;
   margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* Align label and input side-by-side */
@@ -31,9 +32,10 @@
 .field label {
   font-size: 18px;
   margin-right: 10px;
-  color: #2e0b2c;
+  color: #FFF0D1;
   flex: 1; 
   font-family: 'Arial', sans-serif;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* Input, textarea, and file upload styling */
@@ -57,7 +59,7 @@
 .field input,
 .field textarea,
 .field select {
-  flex: 2; /* Adjust flex value to align properly */
+  flex: 2; 
 }
 
 /* Styling for textarea */
@@ -68,16 +70,16 @@
 
 /* File upload styling */
 .field input[type="file"] {
-  padding: 10px; /* Match the padding with other inputs */
+  padding: 10px;
   font-size: 16px;
-  border: 1px solid #ddd; /* Ensure it has the same border as other inputs */
-  border-radius: 5px; /* Consistent border radius */
-  width: calc(100% - 20px); /* Adjust width to fit the container */
+  border: 1px solid #ddd; 
+  border-radius: 5px; 
+  width: calc(100% - 20px);
 }
 .submitButton button {
-  padding: 10px 20px; /* Adjust padding for better sizing */
-  color: rgb(233, 223, 238); /* Text color */
-  background-color: #ee0bd0; /* Background color */
+  padding: 10px 20px; 
+  color: #3B3030;
+  background-color: #FFF0D1; 
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -85,12 +87,18 @@
   max-width: 200px;
   margin: 0 auto; 
   display: block; 
-  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+  width: auto;
 }
 
 .submitButton:hover button {
-  background-color: #d200c0; /* Darker background color on hover */
+  background-color: #FFF0D1; 
+  color: #594a42;
+  box-shadow: 0 0 20px rgb(255, 255, 255);
+  background-color: #fcebd6;
 }
+
 /* Error message styling */
 .error {
   color: red;
@@ -125,4 +133,10 @@
   color: red;
   text-align: center;
   font-size: 16px;
+}
+
+/*failed validation makes label red*/
+.errorLabel{
+  color: red !important; 
+  font-weight: bold;
 }
