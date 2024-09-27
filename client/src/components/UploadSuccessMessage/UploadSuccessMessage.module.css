@@ -9,6 +9,14 @@
   animation: fadeIn 1s ease-out;
 }
 
+.image {
+  max-width: 100%; 
+  height: auto;   
+  max-height: 400px;
+  display: block; 
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
 
 @keyframes fadeIn {
   from {
@@ -20,3 +28,4 @@
     transform: translateY(0);
   }
 }
+

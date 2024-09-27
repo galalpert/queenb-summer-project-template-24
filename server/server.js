@@ -4,6 +4,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const animalRoutes = require('./routes/animalRoutes')
 const userRoutes = require('./routes/userRoutes');
+const path = require('path');
 
 dotenv.config();
 
@@ -28,6 +29,8 @@ app.use((req, res, next) => {
 // Routes
 app.use('/api/animals', animalRoutes)
 app.use('/api/user', userRoutes)
+// Serve static files from the "AnimalUploadMedia" directory
+app.use('/uploads', express.static(path.join(__dirname, 'AnimalUploadMedia')))
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)

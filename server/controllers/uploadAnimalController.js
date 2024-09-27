@@ -1,4 +1,7 @@
 const Animal = require('../models/AnimalModel');
+const multer = require('multer');
+const path = require('path');
+
 let animalIdCounter = 0;
 
 //initialize id counter
@@ -27,6 +30,30 @@ const InitializeAnimalIdCounter = async () => {
 })();
 
 
+//saving animal media to AnimalUploadMedia folder
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'AnimalUploadMedia/'); 
+  },
+  filename: async (req, file, cb) => {
+    try {
+      // Increment animal ID for new animal
+      if (!req.animal_id) {
+        req.animal_id = ++animalIdCounter;
+      }
+
+      // Create a new filename with the animal_id prefix
+      const newFilename = `${req.animal_id}_${file.originalname}`;
+      cb(null, newFilename);
+    } catch (err) {
+      cb(err);
+    }
+  }
+});
+const upload = multer({ storage: storage });
+
+
+//create the animal for the post req
 const createAnimal = async (req, res) => {
   // Extract fields from the request body
   const {
@@ -35,7 +62,6 @@ const createAnimal = async (req, res) => {
     ageMonths,
     sex,
     animal_type,
-    //images_and_videos,
     description,
     area_of_adoption,
     color,
@@ -45,11 +71,11 @@ const createAnimal = async (req, res) => {
     spay_neuter
   } = req.body;
 
-  // Access uploaded files from multer
-  const images_and_videos = req.files.map(file => file.filename);
+  // Use animal ID set by multer's filename function
+  const animal_id = req.animal_id;
 
-  //animal id counter
-  const animal_id = ++animalIdCounter;
+  // Access uploaded files from multer, filenames already include animal_id
+  const images_and_videos = req.files.map(file => file.filename);
   
   try {
     // Create a new animal
@@ -63,7 +89,7 @@ const createAnimal = async (req, res) => {
       },
       sex,
       animal_type,
-      images_and_videos, //: Array.isArray(images_and_videos) ? images_and_videos : [], // Ensure this is an array
+      images_and_videos, 
       description,
       area_of_adoption,
       color,
@@ -86,4 +112,5 @@ const createAnimal = async (req, res) => {
 
 module.exports = {
   createAnimal,
+  upload,
 };
