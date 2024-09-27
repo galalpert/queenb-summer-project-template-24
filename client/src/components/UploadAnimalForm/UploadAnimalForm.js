@@ -21,7 +21,7 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
 
   // State for validation error
   const [validationError, setValidationError] = useState('');
-
+  const [isSubmitted, setIsSubmitted] = useState(false);
   // create states for each input data
   const [name, setName] = useState('');
   const [ageYears, setAgeYears] = useState('');
@@ -43,12 +43,17 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
   const handleAnimalSubmit = async (e) => {
     e.preventDefault(); //don't refresh the page
 
+    setIsSubmitted(true);
+
     // Check required fields
     if (!name || !animal_type || !sex || !description || !area_of_adoption || !color ||(images_and_videos.length == 0)) {
       setValidationError('Not all required fields are filled.');
       return;
     }
-  
+    // Reset validation error if everything is filled
+    setValidationError('');
+    
+
     const formData = new FormData();
   
     // Append fields to formData
@@ -153,16 +158,20 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
     <form className={styles.form} onSubmit={handleAnimalSubmit} noValidate>
       <h3 className={styles.title}>Add a New Animal!</h3>
       <div className={styles.field}>
-        <label>Animal Name*</label>
+        <label className={`${!name && isSubmitted ? styles.errorLabel : styles.label}`}>
+            Animal Name*
+        </label>
         <input
-          type="text"
-          onChange={(e) => setName(e.target.value)}
-          value={name}
-          required
+            type="text"
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+            required
         />
       </div>
       <div className={styles.field}>
-        <label>Age</label>
+        <label className={`${!ageMonths && !ageYears && isSubmitted ? styles.errorLabel : styles.label}`}>
+          Age
+        </label>
         <div className={styles.ageFields}>
           <select
             onChange={(e) => setAgeYears(e.target.value)}
@@ -185,7 +194,9 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
         </div>
       </div>
       <div className={styles.field}>
-        <label>Sex*</label>
+        <label className={`${!sex && isSubmitted ? styles.errorLabel : styles.label}`}>
+          Sex*
+        </label>
         <select
           onChange={(e) => setSex(e.target.value)}
           value={sex}
@@ -196,7 +207,9 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
         </select>
       </div>
       <div className={styles.field}>
-        <label>Animal Type*</label>
+        <label className={`${!animal_type && isSubmitted ? styles.errorLabel : styles.label}`}>
+          Animal Type*
+        </label>
         <select onChange={(e) => setAnimalType(e.target.value)} value={animal_type}>
           {animalOptions.map((animal, index) => (
             <option 
@@ -211,7 +224,9 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
         </select>
       </div>
       <div className={styles.field}>
-        <label>Description*</label>
+        <label className={`${!description && isSubmitted ? styles.errorLabel : styles.label}`}>
+          Description*
+        </label>
         <textarea
           onChange={(e) => setDescription(e.target.value)}
           value={description}
@@ -219,7 +234,9 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
         />
       </div>
       <div className={styles.field}>
-        <label>Area of Adoption*</label>
+        <label className={`${!area_of_adoption && isSubmitted ? styles.errorLabel : styles.label}`}>
+          Area of Adoption*
+        </label>
         <select
           onChange={(e) => setAreaOfAdoption(e.target.value)}
           value={area_of_adoption}
@@ -232,7 +249,9 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
         </select>
       </div>
       <div className={styles.field}>
-        <label>Color*</label>
+        <label className={`${!color && isSubmitted ? styles.errorLabel : styles.label}`}>
+          Color*
+        </label>
         <input
           type="text"
           onChange={(e) => setColor(e.target.value)}
@@ -278,7 +297,9 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
         </select>
       </div>
       <div className={styles.field}>
-        <label>Upload Images and Videos</label>
+        <label className={`${(images_and_videos.length==0) && isSubmitted ? styles.errorLabel : styles.label}`}>
+          Upload Images and Videos
+        </label>
         <input
           type="file"
           multiple

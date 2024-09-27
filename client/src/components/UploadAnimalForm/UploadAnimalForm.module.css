@@ -1,6 +1,6 @@
 .form {
   max-width: 600px;
-  margin: 0 auto;
+  margin: 0 auto 80px;
   padding: 20px;
   background-color: #e6bae6;
   border-radius: 10px;
@@ -8,7 +8,7 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  position: relative; 
+  position: relative;
 }
 
 /* Title styling */
@@ -125,4 +125,10 @@
   color: red;
   text-align: center;
   font-size: 16px;
+}
+
+/*failed validation makes label red*/
+.errorLabel{
+  color: red !important; 
+  font-weight: bold;
 }

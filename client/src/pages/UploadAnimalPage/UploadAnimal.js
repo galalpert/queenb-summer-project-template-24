@@ -17,7 +17,7 @@ const UploadAnimal = () => {
       {submissionData ? (
          <UploadSuccessMessage name={submissionData.name} image={submissionData.image} animal_id={submissionData.animal_id} onSubmissionSuccess={handleSubmissionSuccess} />
       ) : (
-        <UploadAnimalForm onSubmissionSuccess={handleSubmissionSuccess} />
+        <UploadAnimalForm onSubmissionSuccess={handleSubmissionSuccess}/>
       )}
     </div>
   );
