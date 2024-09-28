@@ -140,3 +140,8 @@
   color: red !important; 
   font-weight: bold;
 }
+
+.loading {
+  margin: 10px 0;
+  color: #FFF0D1;
+}

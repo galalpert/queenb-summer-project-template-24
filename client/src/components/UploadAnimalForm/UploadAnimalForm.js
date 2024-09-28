@@ -2,18 +2,32 @@ import { useContext , useState } from "react";
 import styles from "./UploadAnimalForm.module.css";
 import { animalOptions, AnimalContext} from "../../context/AnimalContext"; 
 
+//get max file size
+async function fetchMaxFileSize() {
+  try {
+    const response = await fetch('http://localhost:5000/api/config');
+    const data = await response.json();
+    return data.maxFileSize; 
+  } catch (error) {
+    console.error('Error fetching max file size:', error);
+  }
+}
+const validImageExtensions = ['.png', '.jpeg', '.jpg'];
+
+
 const UploadAnimalForm = ({onSubmissionSuccess}) => {
 
   // State for validation error
   const [validationError, setValidationError] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false); 
   // create states for each input data
   const [name, setName] = useState('');
   const [ageYears, setAgeYears] = useState('');
   const [ageMonths, setAgeMonths] = useState('');
   const [animal_type, setAnimalType] = useState('');
   const [sex, setSex] = useState('');
-  const [images_and_videos, setImagesAndVideos] = useState([]);
+  const [images_and_videos, setImagesAndVideos] = useState([""]);
   const [description, setDescription] = useState('');
   const [area_of_adoption, setAreaOfAdoption] = useState('');
   const [color, setColor] = useState('');
@@ -59,6 +73,7 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
     });
 
     try {
+      setLoading(true); // Set loading to true when submission starts
       // Make the POST request to the server
       const response = await fetch('http://localhost:5000/api/animals/', {
         method: 'POST',
@@ -66,13 +81,21 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
       });
   
       // Check if the response is not OK
+      const maxFileSize = await fetchMaxFileSize();
       if (!response.ok) {
         const errorText = await response.text();
         console.error('Error from server:', errorText);
-        setError(errorText);
+
+        // Check for specific error messages
+        if (errorText.includes('Invalid file type')) {
+          setError('Invalid file type. Please upload images (PNG, JPEG, JPG) or videos (MP4, WEBM, OGG, MOV).');
+        } else if (errorText.includes('too large')) {
+          setError(`The file you uploaded is too large. Please ensure it is under ${(maxFileSize / (1024 * 1024)).toFixed(2)} MB.`);
+        } else {
+          setError('An error occurred while uploading. Please try again.');
+        }
         return;
       }
-  
       // If response is OK, parse it as JSON
       const json = await response.json();
       const { animal } = json;
@@ -93,11 +116,19 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
       setSpayOrNeuter('');
       setError(null);
       console.log("New animal added:", json);
-      const image = images_and_videos[0].name; //get profile image
+
+      
+      // Find the first valid image in the array
+      const imageFile = images_and_videos.find(file => 
+        validImageExtensions.some(extension => file.name.toLowerCase().endsWith(extension))
+      ) || ""; // If no valid image found, set to empty string
+      const image = imageFile ? imageFile.name : "";
       onSubmissionSuccess({ name, image, animal_id: animal.animal_id })  //changed status to submitted and pass param
     } catch (err) {
       console.error('Unexpected error:', err);
       setError('Unable to submit the form. Please check your network or server.');
+    } finally {
+      setLoading(false); // Set loading to false when submission ends
     }
   };
 
@@ -257,17 +288,19 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
         </select>
       </div>
       <div className={styles.field}>
-        <label className={`${(images_and_videos.length===0) && isSubmitted ? styles.errorLabel : styles.label}`}>
-          Upload Images and Videos
+        <label className={`${(images_and_videos[0]==="") && isSubmitted ? styles.errorLabel : styles.label}`}>
+          Upload Images and Videos*
         </label>
         <input
           type="file"
           multiple
+          accept="image/png, image/jpeg, image/jpg, video/mp4, video/webm, video/ogg, video/quicktime"
           onChange={handleFiles}
           required
         />
       </div>
       {validationError && <div className={styles.validationError}>{validationError}</div>}
+      {loading && <div className={styles.loading}>Loading... Please wait</div>}
       <div className={styles.submitButton}>
       <button type="submit">Upload Animal</button>
       </div>
