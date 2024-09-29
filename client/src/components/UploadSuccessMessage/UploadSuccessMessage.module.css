@@ -1,7 +1,7 @@
 .title {
   text-align: center;
   font-size: 28px;
-  color: #d31ba5;
+  color: #664343;
   margin-bottom: 20px;
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(255, 209, 249, 0.705);
@@ -9,6 +9,14 @@
   animation: fadeIn 1s ease-out;
 }
 
+.image {
+  max-width: 100%; 
+  height: auto;   
+  max-height: 400px;
+  display: block; 
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
 
 @keyframes fadeIn {
   from {
@@ -20,3 +28,4 @@
     transform: translateY(0);
   }
 }
+

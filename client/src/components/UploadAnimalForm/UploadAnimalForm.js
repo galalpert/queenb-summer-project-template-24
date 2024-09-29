@@ -1,34 +1,33 @@
-import { useEffect, useState } from "react";
+import { useContext , useState } from "react";
 import styles from "./UploadAnimalForm.module.css";
+import { animalOptions, AnimalContext} from "../../context/AnimalContext"; 
 
-const animalOptions = [
-  { value: "", label: "", disabled: true, hidden: true }, 
-  { value: "Dog", label: "Dog" },
-  { value: "Cat", label: "Cat" },
-  { value: "Rabbit", label: "Rabbit" },
-  { value: "Guinea Pig", label: "Guinea Pig" },
-  { value: "Hamster", label: "Hamster" },
-  { value: "Bird", label: "Bird" },
-  { value: "Fish", label: "Fish" },
-  { value: "Reptile", label: "Reptile" },
-  { value: "Horse", label: "Horse" },
-  { value: "Goat", label: "Goat" },
-  { value: "Chicken", label: "Chicken" },
-  { value: "Other", label: "Other" },
-];
+//get max file size
+async function fetchMaxFileSize() {
+  try {
+    const response = await fetch('http://localhost:5000/api/config');
+    const data = await response.json();
+    return data.maxFileSize; 
+  } catch (error) {
+    console.error('Error fetching max file size:', error);
+  }
+}
+const validImageExtensions = ['.png', '.jpeg', '.jpg'];
+
 
 const UploadAnimalForm = ({onSubmissionSuccess}) => {
 
   // State for validation error
   const [validationError, setValidationError] = useState('');
-
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false); 
   // create states for each input data
   const [name, setName] = useState('');
   const [ageYears, setAgeYears] = useState('');
   const [ageMonths, setAgeMonths] = useState('');
   const [animal_type, setAnimalType] = useState('');
   const [sex, setSex] = useState('');
-  const [images_and_videos, setImagesAndVideos] = useState([]);
+  const [images_and_videos, setImagesAndVideos] = useState([""]);
   const [description, setDescription] = useState('');
   const [area_of_adoption, setAreaOfAdoption] = useState('');
   const [color, setColor] = useState('');
@@ -43,12 +42,17 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
   const handleAnimalSubmit = async (e) => {
     e.preventDefault(); //don't refresh the page
 
+    setIsSubmitted(true);
+
     // Check required fields
-    if (!name || !animal_type || !sex || !description || !area_of_adoption || !color) {
+    if (!name || !animal_type || !sex || !description || !area_of_adoption || !color ||(images_and_videos.length === 0) || (!ageMonths && !ageYears)) {
       setValidationError('Not all required fields are filled.');
       return;
     }
-  
+    // Reset validation error if everything is filled
+    setValidationError('');
+    
+
     const formData = new FormData();
   
     // Append fields to formData
@@ -69,6 +73,7 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
     });
 
     try {
+      setLoading(true); // Set loading to true when submission starts
       // Make the POST request to the server
       const response = await fetch('http://localhost:5000/api/animals/', {
         method: 'POST',
@@ -76,16 +81,25 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
       });
   
       // Check if the response is not OK
+      const maxFileSize = await fetchMaxFileSize();
       if (!response.ok) {
         const errorText = await response.text();
         console.error('Error from server:', errorText);
-        setError(errorText);
+
+        // Check for specific error messages
+        if (errorText.includes('Invalid file type')) {
+          setError('Invalid file type. Please upload images (PNG, JPEG, JPG) or videos (MP4, WEBM, OGG, MOV).');
+        } else if (errorText.includes('too large')) {
+          setError(`The file you uploaded is too large. Please ensure it is under ${(maxFileSize / (1024 * 1024)).toFixed(2)} MB.`);
+        } else {
+          setError('An error occurred while uploading. Please try again.');
+        }
         return;
       }
-  
       // If response is OK, parse it as JSON
       const json = await response.json();
-  
+      const { animal } = json;
+
       // reset form after successful response
       setName('');
       setAgeYears(0);
@@ -102,11 +116,19 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
       setSpayOrNeuter('');
       setError(null);
       console.log("New animal added:", json);
-      const image = images_and_videos[0]; //get profile image
-      onSubmissionSuccess({ name, image })  //changed status to submitted and pass name and image
+
+      
+      // Find the first valid image in the array
+      const imageFile = images_and_videos.find(file => 
+        validImageExtensions.some(extension => file.name.toLowerCase().endsWith(extension))
+      ) || ""; // If no valid image found, set to empty string
+      const image = imageFile ? imageFile.name : "";
+      onSubmissionSuccess({ name, image, animal_id: animal.animal_id })  //changed status to submitted and pass param
     } catch (err) {
       console.error('Unexpected error:', err);
       setError('Unable to submit the form. Please check your network or server.');
+    } finally {
+      setLoading(false); // Set loading to false when submission ends
     }
   };
 
@@ -120,48 +142,27 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
   const years = Array.from({ length: 51 }, (_, i) => i); // 0 to 50 years
   const months = Array.from({ length: 12 }, (_, i) => i); // 0 to 11 months
 
-  // Cities for the form
-  const [cities, setCities] = useState([]);
-
-  useEffect(() => {
-    const fetchCities = async () => {
-      try {
-        const response = await fetch('https://countriesnow.space/api/v0.1/countries/cities', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ country: "Israel" }), // Change the country to Israel
-        });
-  
-        const result = await response.json();
-        if (result && !result.error) {
-          setCities(result.data); 
-        } else {
-          console.error('Error fetching cities:', result.msg);
-        }
-      } catch (err) {
-        console.error("Error fetching cities:", err);
-      }
-    };
-  
-    fetchCities();
-  }, []);
+  // Access cities from context
+  const { cities } = useContext(AnimalContext); 
 
   return (
     <form className={styles.form} onSubmit={handleAnimalSubmit} noValidate>
       <h3 className={styles.title}>Add a New Animal!</h3>
       <div className={styles.field}>
-        <label>Animal Name*</label>
+        <label className={`${!name && isSubmitted ? styles.errorLabel : styles.label}`}>
+            Animal Name*
+        </label>
         <input
-          type="text"
-          onChange={(e) => setName(e.target.value)}
-          value={name}
-          required
+            type="text"
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+            required
         />
       </div>
       <div className={styles.field}>
-        <label>Age</label>
+        <label className={`${!ageMonths && !ageYears && isSubmitted ? styles.errorLabel : styles.label}`}>
+          Age*
+        </label>
         <div className={styles.ageFields}>
           <select
             onChange={(e) => setAgeYears(e.target.value)}
@@ -184,7 +185,9 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
         </div>
       </div>
       <div className={styles.field}>
-        <label>Sex*</label>
+        <label className={`${!sex && isSubmitted ? styles.errorLabel : styles.label}`}>
+          Sex*
+        </label>
         <select
           onChange={(e) => setSex(e.target.value)}
           value={sex}
@@ -195,7 +198,9 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
         </select>
       </div>
       <div className={styles.field}>
-        <label>Animal Type*</label>
+        <label className={`${!animal_type && isSubmitted ? styles.errorLabel : styles.label}`}>
+          Animal Type*
+        </label>
         <select onChange={(e) => setAnimalType(e.target.value)} value={animal_type}>
           {animalOptions.map((animal, index) => (
             <option 
@@ -210,7 +215,9 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
         </select>
       </div>
       <div className={styles.field}>
-        <label>Description*</label>
+        <label className={`${!description && isSubmitted ? styles.errorLabel : styles.label}`}>
+          Description*
+        </label>
         <textarea
           onChange={(e) => setDescription(e.target.value)}
           value={description}
@@ -218,7 +225,9 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
         />
       </div>
       <div className={styles.field}>
-        <label>Area of Adoption*</label>
+        <label className={`${!area_of_adoption && isSubmitted ? styles.errorLabel : styles.label}`}>
+          Area of Adoption*
+        </label>
         <select
           onChange={(e) => setAreaOfAdoption(e.target.value)}
           value={area_of_adoption}
@@ -231,7 +240,9 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
         </select>
       </div>
       <div className={styles.field}>
-        <label>Color*</label>
+        <label className={`${!color && isSubmitted ? styles.errorLabel : styles.label}`}>
+          Color*
+        </label>
         <input
           type="text"
           onChange={(e) => setColor(e.target.value)}
@@ -277,14 +288,19 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
         </select>
       </div>
       <div className={styles.field}>
-        <label>Upload Images and Videos</label>
+        <label className={`${(images_and_videos[0]==="") && isSubmitted ? styles.errorLabel : styles.label}`}>
+          Upload Images and Videos*
+        </label>
         <input
           type="file"
           multiple
+          accept="image/png, image/jpeg, image/jpg, video/mp4, video/webm, video/ogg, video/quicktime"
           onChange={handleFiles}
+          required
         />
       </div>
       {validationError && <div className={styles.validationError}>{validationError}</div>}
+      {loading && <div className={styles.loading}>Loading... Please wait</div>}
       <div className={styles.submitButton}>
       <button type="submit">Upload Animal</button>
       </div>

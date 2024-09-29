@@ -4,6 +4,8 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const animalRoutes = require('./routes/animalRoutes')
 const userRoutes = require('./routes/userRoutes');
+const path = require('path');
+const {MAX_FILE_SIZE} = require('./controllers/uploadAnimalController') 
 
 dotenv.config();
 
@@ -28,6 +30,14 @@ app.use((req, res, next) => {
 // Routes
 app.use('/api/animals', animalRoutes)
 app.use('/api/user', userRoutes)
+// Serve static files from the "AnimalUploadMedia" directory
+app.use('/uploads', express.static(path.join(__dirname, 'AnimalUploadMedia')))
+
+//get max file size for the client
+app.get('/api/config', (req, res) => {
+  res.json({ maxFileSize: MAX_FILE_SIZE });
+});
+
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
