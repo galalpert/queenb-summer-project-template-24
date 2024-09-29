@@ -14,7 +14,9 @@ function App() {
     <BrowserRouter>
       <div className={styles.app}>
         <header className={styles.appHeader}>
-          <img src="/logo.png" alt="Logo" className={styles.appLogo} />
+          <Link to='http://localhost:3000/' className={styles.appLink}>
+              <NavButton><img src="/logo.png" alt="Logo" className={styles.appLogo} /></NavButton>
+              </Link>
           <nav className={styles.appNav}>
             <Link to="/LoginPage" className={styles.appLink}>
               <NavButton>Login</NavButton>
