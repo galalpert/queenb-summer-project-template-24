@@ -9,6 +9,8 @@ const {MAX_FILE_SIZE} = require('./controllers/uploadAnimalController')
 
 dotenv.config();
 
+
+
 // Constants
 const PORT = process.env.PORT;
 
@@ -20,6 +22,7 @@ app.use(express.json())
 app.use(cors({
   origin: process.env.CLIENT_URL
 }));
+
 
 app.use((req, res, next) => {
   console.log(req.path, req.method)
