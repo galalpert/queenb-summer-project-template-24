@@ -50,7 +50,7 @@ const SignUpForm = ({ onSignUpSuccess }) => {
   };
 
   return (
-    <form className={styles.signUpForm} onSubmit={handleSignUp}>
+    <form className={styles.form} onSubmit={handleSignUp}>
       <h3 className={styles.title}>Sign Up</h3>
       <div className={styles.field}>
         <label className={`${!name && isSubmitted ? styles.errorLabel : styles.label}`}>Full Name*</label>
