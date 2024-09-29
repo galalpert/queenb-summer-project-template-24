@@ -48,6 +48,7 @@ const AnimalProvider = ({ children }) => {
 
     useEffect(() => {
         getAllAnimals();
+        fetchCities();
     }, []);
 
     return (
