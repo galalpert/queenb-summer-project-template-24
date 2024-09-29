@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import styles from './SignUpForm.module.css';
 
-// You can replace this list with an API call or a larger list if needed
-const cities = ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix'];
-const countries = ['United States', 'Canada', 'Mexico', 'United Kingdom', 'Australia'];
+const cities = ['Tel Aviv', 'Jerusalem', 'Haifa', 'Beer Sheva', 'Eilat'];
+const countries = ['Israel'];
 
 const SignUpForm = ({ onSignUpSuccess }) => {
   const [name, setName] = useState('');
