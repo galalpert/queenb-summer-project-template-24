@@ -40,8 +40,8 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
 
   // Handle form submission
   const handleAnimalSubmit = async (e) => {
-    e.preventDefault(); //don't refresh the page
 
+    e.preventDefault(); //don't refresh the page
     setIsSubmitted(true);
 
     // Check required fields
@@ -71,29 +71,30 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
     images_and_videos.forEach((file) => {
       formData.append('images_and_videos', file);
     });
-
+ 
     try {
       setLoading(true); // Set loading to true when submission starts
+      setError("");
       // Make the POST request to the server
       const response = await fetch('http://localhost:5000/api/animals/', {
         method: 'POST',
         body: formData,
       });
-  
-      // Check if the response is not OK
-      const maxFileSize = await fetchMaxFileSize();
+
       if (!response.ok) {
         const errorText = await response.text();
         console.error('Error from server:', errorText);
-
         // Check for specific error messages
         if (errorText.includes('Invalid file type')) {
           setError('Invalid file type. Please upload images (PNG, JPEG, JPG) or videos (MP4, WEBM, OGG, MOV).');
         } else if (errorText.includes('too large')) {
+          // Check if the response is not OK
+          const maxFileSize = await fetchMaxFileSize();
           setError(`The file you uploaded is too large. Please ensure it is under ${(maxFileSize / (1024 * 1024)).toFixed(2)} MB.`);
         } else {
           setError('An error occurred while uploading. Please try again.');
         }
+        setLoading(false);
         return;
       }
       // If response is OK, parse it as JSON

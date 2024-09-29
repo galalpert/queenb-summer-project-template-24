@@ -45,7 +45,7 @@ const AnimalSchema = new Schema({
     contact_user: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: "User",
-      required: true
+      /*required: true*/
     },
     area_of_adoption: {
       type: String,
