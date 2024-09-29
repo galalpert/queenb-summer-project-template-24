@@ -1,5 +1,5 @@
 import { AnimalContext } from '../../context/AnimalContext';
-
+import styles from "./AnimalItem.module.css";
 const AnimalItem = ({ animals }) => {
     /*const {dispatch} = AnimalContext()
 
@@ -15,11 +15,18 @@ const AnimalItem = ({ animals }) => {
     }*/ //delete func
     //<span onClick={handleClick}>delete</span>
 
+
     return (
         <div className="animal-item">
 
             <h1>{animals.name}</h1>
-            <img src={animals.images_and_videos} alt={animals.title} /*className={styles.img}*/></img>
+            {animals.images_and_videos[0] && (
+                <img 
+                src={`http://localhost:5000/uploads/${animals.images_and_videos[0]}`} 
+                alt={animals.images_and_videos[0]}
+                className={styles.image} 
+                />
+            )}
             <p><strong>animal type: </strong>{animals.animal_type}</p>
             <p><strong>color: </strong>{animals.color}</p>
             <p><strong>sex: </strong>{animals.sex}</p>
