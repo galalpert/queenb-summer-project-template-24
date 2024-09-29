@@ -27,7 +27,7 @@ const AnimalSchema = new Schema({
     },
     sex: {
       type: String,
-      enum: ['Male', 'Female'],
+      enum: ['male', 'female', 'unknown'],
       required: true
     },
     animal_type: {
@@ -45,7 +45,7 @@ const AnimalSchema = new Schema({
     contact_user: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: "User",
-      //required: true
+      required: true
     },
     area_of_adoption: {
       type: String,
@@ -65,7 +65,7 @@ const AnimalSchema = new Schema({
       type: String,
     },
     spay_neuter: {
-      type: String,
+      type: Boolean,
     }
 }, {
     timestamps: true

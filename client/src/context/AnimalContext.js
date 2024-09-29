@@ -37,9 +37,17 @@ const AnimalProvider = ({ children }) => {
         }
     };
 
+   /* const deleteAnimal= async () => {
+        try {
+            const response = await api.delete('/animal/');
+            setAnimals(response.data);
+        } catch (error) {
+            console.error('Error deleting the animals:', error);
+        }
+    };*/ //delete func
+
     useEffect(() => {
         getAllAnimals();
-        fetchCities();
     }, []);
 
     return (
