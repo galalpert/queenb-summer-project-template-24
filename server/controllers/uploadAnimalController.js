@@ -3,7 +3,7 @@ const multer = require('multer');
 const path = require('path');
 
 const MB = 1024 * 1024; // Define how many bytes are in one MB
-const MAX_FILE_SIZE = 1000 * MB; // 1000 MB in bytes
+const MAX_FILE_SIZE = 100*MB; // 1000 MB in bytes
 
 let animalIdCounter = 0;
 
@@ -68,7 +68,6 @@ const upload = multer({
       'video/ogg',
       'video/quicktime' // Add MOV files here
     ];
-    
     // Check file type
     if (!allowedTypes.includes(file.mimetype)) {
       return cb(new Error('Invalid file type. Only images and videos are allowed.'), false); // Reject file
