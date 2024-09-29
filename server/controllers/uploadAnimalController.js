@@ -2,6 +2,9 @@ const Animal = require('../models/AnimalModel');
 const multer = require('multer');
 const path = require('path');
 
+const MB = 1024 * 1024; // Define how many bytes are in one MB
+const MAX_FILE_SIZE = 1000 * MB; // 1000 MB in bytes
+
 let animalIdCounter = 0;
 
 //initialize id counter
@@ -50,9 +53,30 @@ const storage = multer.diskStorage({
     }
   }
 });
-const upload = multer({ storage: storage });
 
+// Create multer instance with limits and file filter
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: MAX_FILE_SIZE }, // Ensure file size is set
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = [
+      'image/png',
+      'image/jpeg',
+      'image/jpg',
+      'video/mp4',
+      'video/webm',
+      'video/ogg',
+      'video/quicktime' // Add MOV files here
+    ];
+    
+    // Check file type
+    if (!allowedTypes.includes(file.mimetype)) {
+      return cb(new Error('Invalid file type. Only images and videos are allowed.'), false); // Reject file
+    }
 
+    cb(null, true); // Accept file
+  }
+});
 //create the animal for the post req
 const createAnimal = async (req, res) => {
   // Extract fields from the request body
@@ -113,4 +137,5 @@ const createAnimal = async (req, res) => {
 module.exports = {
   createAnimal,
   upload,
+  MAX_FILE_SIZE,
 };
