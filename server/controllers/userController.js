@@ -24,8 +24,19 @@ const signIn = async (req, res) => {
     // Generate a JWT for the authenticated user
     const authToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    // Respond with the authToken
-    res.json({ authToken });
+    // Return user data along with authToken (exclude password)
+    const userData = {
+      user_id: user.user_id,
+      name: user.name,
+      email: user.email,
+      phone_number: user.phone_number,
+      address: user.address,
+    };
+
+    res.json({ authToken, user: userData });
+
+    // // Respond with the authToken
+    // res.json({ authToken });
   } catch (error) {
     res.status(500).send('Server error');
   }
@@ -70,6 +81,8 @@ const signUp = async (req, res) => {
     res.status(500).send('Server error');
   }
 };
+
+
 
 module.exports = {
   signIn,

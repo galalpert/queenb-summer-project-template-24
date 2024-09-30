@@ -1,6 +1,7 @@
 import { useContext , useState } from "react";
 import styles from "./UploadAnimalForm.module.css";
 import { animalOptions, AnimalContext} from "../../context/AnimalContext"; 
+import { AuthContext } from "../../context/AuthContext";
 
 //get max file size
 async function fetchMaxFileSize() {
@@ -13,7 +14,6 @@ async function fetchMaxFileSize() {
   }
 }
 const validImageExtensions = ['.png', '.jpeg', '.jpg'];
-
 
 const UploadAnimalForm = ({onSubmissionSuccess}) => {
 
@@ -71,7 +71,8 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
     images_and_videos.forEach((file) => {
       formData.append('images_and_videos', file);
     });
- 
+
+    
     try {
       setLoading(true); // Set loading to true when submission starts
       setError("");
@@ -144,7 +145,9 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
   const months = Array.from({ length: 12 }, (_, i) => i); // 0 to 11 months
 
   // Access cities from context
-  const { cities } = useContext(AnimalContext); 
+  const { cities } = useContext(AnimalContext);
+  // current Active user from context
+  // const { user } = useContext(AuthContext); 
 
   return (
     <form className={styles.form} onSubmit={handleAnimalSubmit} noValidate>
