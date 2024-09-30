@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=VT323&display=swap');
+
 /* App.module.css */
 .app {
   text-align: center;
 }
 
 .appHeader {
-  background-color: #d3b8ae;
+  background-color: #987070;
   padding: 5px 30px 5px 30px;
   color: white;
   display: flex;
@@ -19,13 +21,6 @@
 .appNav {
   display: flex;
   gap: 20px;
-  
-}
-
-.appLink {
-  color: white;
-  text-decoration: none;
-  font-size: 1.2em;
 }
 
 .appLink:hover {
@@ -34,37 +29,20 @@
 
 .main {
   padding: 20px;
-  background-color: #fcebd6;
+  background-color: #FFF0D1;
   min-height: calc(120vh - 60px); /* Adjusted height to ensure space for footer */
   box-sizing: border-box; /* Include padding in height calculation */
 }
 
 .footer {
   padding: 10px;
-  background-color: #d3b8ae;
-  color: white;
+  background-color: #987070;
+  color: #FFF0D1;
   position: fixed;
   width: 100%;
   bottom: 0;
   text-align: center;
   box-sizing: border-box; /* Include padding in width calculation */
-}
-  
-body {
-  border: 0;
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-  background-color: #f0e4d7;
-  color: #594a42;
-}
-
-.container {
-  min-height: 100vh;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  text-align: center;
 }
 
 button {
@@ -79,19 +57,8 @@ button {
   color: #594a42
 }
 
-.reg {
-  color: white;
-  background-color: #fcebd6;
-}
-
-.log {
-  background-color: rgba(255, 255, 255, 1);
-  border: 1px solid #fcebd6;
-}
-
 button:hover {
   color: #594a42;
   box-shadow: 0 0 20px rgb(255, 255, 255);
   background-color: #fcebd6;
 }
-

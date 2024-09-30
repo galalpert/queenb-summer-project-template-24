@@ -5,7 +5,7 @@ import UploadSuccessMessage from '../../components/UploadSuccessMessage/UploadSu
 
 const UploadAnimal = () => {
 
-  const [submissionData, setSubmissionData] = useState("");
+  const [submissionData, setSubmissionData] = useState(null);
 
   // Function to handle submission status
   const handleSubmissionSuccess = (data) => {
@@ -15,9 +15,9 @@ const UploadAnimal = () => {
   return (
     <div className={styles.UploadAnimal}>
       {submissionData ? (
-         <UploadSuccessMessage name={submissionData.name} images={submissionData.images_and_videos} onSubmissionSuccess={handleSubmissionSuccess} />
+         <UploadSuccessMessage name={submissionData.name} image={submissionData.image} animal_id={submissionData.animal_id} onSubmissionSuccess={handleSubmissionSuccess} />
       ) : (
-        <UploadAnimalForm onSubmissionSuccess={handleSubmissionSuccess} />
+        <UploadAnimalForm onSubmissionSuccess={handleSubmissionSuccess}/>
       )}
     </div>
   );

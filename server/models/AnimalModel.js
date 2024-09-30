@@ -27,15 +27,17 @@ const AnimalSchema = new Schema({
     },
     sex: {
       type: String,
+      enum: ['Male', 'Female'],
       required: true
     },
     animal_type: {
       type: String,
       required: true
     },
-    images_and_videos: [{
-      type: String
-    }],
+    images_and_videos: {
+      type: [String],
+      required: true,
+    },
     description: {
       type: String,
       required: true
@@ -43,7 +45,7 @@ const AnimalSchema = new Schema({
     contact_user: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: "User",
-      //required: true
+      /*required: true*/
     },
     area_of_adoption: {
       type: String,
@@ -63,8 +65,7 @@ const AnimalSchema = new Schema({
       type: String,
     },
     spay_neuter: {
-      //type: Boolean,
-      type: String
+      type: String,
     }
 }, {
     timestamps: true
