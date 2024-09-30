@@ -26,6 +26,7 @@ const signIn = async (req, res) => {
 
     // Return user data along with authToken (exclude password)
     const userData = {
+      _id: user._id,
       user_id: user.user_id,
       name: user.name,
       email: user.email,

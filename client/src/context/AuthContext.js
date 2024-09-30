@@ -29,6 +29,16 @@ const AuthProvider = ({ children }) => {
     localStorage.setItem('user', JSON.stringify(userData));
     localStorage.setItem('authToken', token);
   };
+  
+  // Signup function to save user and token
+  const signup = (userData, token) => {
+    setUser(userData);
+    setAuthToken(token);
+
+    // Save the user and token to localStorage
+    localStorage.setItem('user', JSON.stringify(userData));
+    localStorage.setItem('authToken', token);
+  };
 
   // Logout function to clear user and token
   const logout = () => {
@@ -47,4 +57,4 @@ const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-export {AuthContext, AuthProvider}
+export { AuthContext, AuthProvider}

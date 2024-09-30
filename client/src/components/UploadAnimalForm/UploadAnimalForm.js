@@ -35,6 +35,7 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
   const [breed, setBreed] = useState('');
   const [health_condition, setHealthCondition] = useState('');
   const [spay_neuter, setSpayOrNeuter] = useState('');
+  const [contact_user, setContactUser] = useState('');
   const [error, setError] = useState('');
 
 
@@ -52,6 +53,7 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
     // Reset validation error if everything is filled
     setValidationError('');
     
+    setContactUser(user.user_id);
 
     const formData = new FormData();
   
@@ -62,6 +64,7 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
     formData.append('sex', sex);
     formData.append('animal_type', animal_type);
     formData.append('description', description);
+    formData.append('contact_user', contact_user);
     formData.append('area_of_adoption', area_of_adoption);
     formData.append('color', color);
     formData.append('get_along_with', get_along_with);
@@ -116,6 +119,7 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
       setBreed('');
       setHealthCondition('');
       setSpayOrNeuter('');
+      setContactUser('');
       setError(null);
       console.log("New animal added:", json);
 
@@ -147,7 +151,7 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
   // Access cities from context
   const { cities } = useContext(AnimalContext);
   // current Active user from context
-  // const { user } = useContext(AuthContext); 
+  const { user } = useContext(AuthContext); 
 
   return (
     <form className={styles.form} onSubmit={handleAnimalSubmit} noValidate>
