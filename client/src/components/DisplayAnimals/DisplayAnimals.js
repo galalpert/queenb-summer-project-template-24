@@ -10,7 +10,6 @@ const DispalyAnimals = () => {
   if (!animals) return null;
 
   console.log("animals", animals)
-  console.log("photo", animals.images_and_videos)
   return (
     <div className={styles.container}>
         {animals && animals.map((animals) =>(
