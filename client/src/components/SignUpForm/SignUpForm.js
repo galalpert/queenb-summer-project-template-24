@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './SignUpForm.module.css';
 
-const cities = ['Tel Aviv', 'Jerusalem', 'Haifa', 'Beer Sheva', 'Eilat'];
 const countries = ['Israel'];
 
 const SignUpForm = ({ onSignUpSuccess }) => {
@@ -10,10 +9,36 @@ const SignUpForm = ({ onSignUpSuccess }) => {
   const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [city, setCity] = useState('');
-  const [country, setCountry] = useState('');
+  const [country, setCountry] = useState('Israel');
+  const [cities, setCities] = useState([]); // Dynamically fetched cities
   const [error, setError] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        const response = await fetch('https://countriesnow.space/api/v0.1/countries/cities', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ country: "Israel" }),
+        });
+        const result = await response.json();
+        if (result && !result.error) {
+          setCities(result.data); // Set the fetched cities
+        } else {
+          console.error('Error fetching cities:', result.msg);
+        }
+      } catch (err) {
+        console.error("Error fetching cities:", err);
+      }
+    };
+
+    fetchCities(); // Call the function to fetch cities
+  }, []); // Empty dependency array to run this effect only once when the component mounts
+
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -27,7 +52,7 @@ const SignUpForm = ({ onSignUpSuccess }) => {
 
     try {
       setLoading(true);
-      const response = await fetch('/api/user/signup', {
+      const response = await fetch('http://localhost:5000/api/user/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password, phone_number: phoneNumber, city, country }),
@@ -40,8 +65,9 @@ const SignUpForm = ({ onSignUpSuccess }) => {
         return;
       }
 
-      const data = await response.json();
-      onSignUpSuccess(name); // Pass name to parent component on success
+      const userData = await response.json(); // Assuming the server responds with user data on success
+      console.log('userData from server:', userData);
+      onSignUpSuccess(userData); // Pass name to parent component on success
     } catch (err) {
       setError('Unexpected error occurred. Please try again.');
     } finally {
@@ -72,11 +98,15 @@ const SignUpForm = ({ onSignUpSuccess }) => {
         <label className={`${!city && isSubmitted ? styles.errorLabel : styles.label}`}>City*</label>
         <select value={city} onChange={(e) => setCity(e.target.value)} required>
           <option value="" disabled>Select your city</option>
-          {cities.map((city) => (
-            <option key={city} value={city}>
-              {city}
-            </option>
-          ))}
+          {cities.length > 0 ? (
+            cities.map((city) => (
+              <option key={city} value={city}>
+                {city}
+              </option>
+            ))
+          ) : (
+            <option disabled>Loading cities...</option>
+          )}
         </select>
       </div>
       <div className={styles.field}>
