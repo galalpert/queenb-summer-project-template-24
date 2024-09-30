@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/api/animals', animalRoutes)
-app.use('/api/auth', authRoutes)
+//app.use('/api/auth', authRoutes)
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)

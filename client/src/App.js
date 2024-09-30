@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import Home from './pages/HomePage/HomePage';
 import UploadAnimal from './pages//UploadAnimalPage/UploadAnimal';
 import styles from './styles/App.module.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   return (
