@@ -65,14 +65,10 @@ const SignUpForm = ({ onSignUpSuccess }) => {
         return;
       }
 
-      // const data = await response.json();
-      onSignUpSuccess(name); // Pass name to parent component on success
+      const userData = await response.json(); // Assuming the server responds with user data on success
+      console.log('userData from server:', userData);
+      onSignUpSuccess(userData); // Pass name to parent component on success
     } catch (err) {
-      // delete later:
-      console.error("Error during signup:", err);
-      console.error("Error type:", typeof err);  // Print the error type
-      console.error("Error message:", err.message);  // Print the error message
-      console.error("Error name:", err.name);  // Print the error name (e.g., TypeError, ReferenceError)
       setError('Unexpected error occurred. Please try again.');
     } finally {
       setLoading(false);
