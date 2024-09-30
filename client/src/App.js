@@ -39,11 +39,14 @@ const AppContent = () => {
               </Link>
             </>
           ) : (
-            <LogoutButton />
+            <>
+              {/* Show Logout button and Upload Animal link if user is logged in */}
+              <LogoutButton />
+              <Link to="/UploadAnimal" className={styles.appLink}>
+                <NavButton>Upload Animal</NavButton>
+              </Link>
+            </>
           )}
-          <Link to="/UploadAnimal" className={styles.appLink}>
-            <NavButton>Upload Animal</NavButton>
-          </Link>
         </nav>
       </header>
       <main className={styles.main}>
