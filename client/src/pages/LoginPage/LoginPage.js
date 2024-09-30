@@ -27,15 +27,18 @@ const LoginPage = () => {
       });
 
       const data = await response.json();
+
       if (!response.ok) {
         throw new Error(data.error || 'Login failed');
       }
 
-      // Call the login function from context with user data
-      login(data);
+      const { authToken, user } = data;
+
+      // Call the login function from context with token and user data
+      login(user, authToken);
 
       // Set success message and redirect after a short delay
-      setSuccessMessage(`Welcome back, ${data.name}`);
+      setSuccessMessage(`Welcome back, ${user.name}`);
       setTimeout(() => {
         navigate('/'); // Redirect to the main page
       }, 2000); // 2 seconds delay before redirecting

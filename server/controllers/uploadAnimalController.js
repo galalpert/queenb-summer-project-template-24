@@ -86,14 +86,17 @@ const createAnimal = async (req, res) => {
     sex,
     animal_type,
     description,
+    contact_user,
     area_of_adoption,
     color,
     get_along_with,
     breed,
     health_condition,
-    spay_neuter
+    spay_neuter,
   } = req.body;
 
+  console.log(contact_user)
+  console.log("!!!!")
   // Use animal ID set by multer's filename function
   const animal_id = req.animal_id;
 
@@ -114,6 +117,7 @@ const createAnimal = async (req, res) => {
       animal_type,
       images_and_videos, 
       description,
+      contact_user,
       area_of_adoption,
       color,
       // Default to empty string - non required filed
@@ -122,7 +126,6 @@ const createAnimal = async (req, res) => {
       health_condition: health_condition || '', 
       spay_neuter: spay_neuter || '' 
     });
-
     // Respond with the newly created animal
     res.status(201).json({ animal });
   } catch (err) {
