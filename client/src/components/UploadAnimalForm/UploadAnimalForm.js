@@ -14,6 +14,7 @@ async function fetchMaxFileSize() {
   }
 }
 const validImageExtensions = ['.png', '.jpeg', '.jpg'];
+ 
 
 const UploadAnimalForm = ({onSubmissionSuccess}) => {
 
@@ -35,13 +36,12 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
   const [breed, setBreed] = useState('');
   const [health_condition, setHealthCondition] = useState('');
   const [spay_neuter, setSpayOrNeuter] = useState('');
-  const [contact_user, setContactUser] = useState('');
   const [error, setError] = useState('');
 
 
   // Handle form submission
   const handleAnimalSubmit = async (e) => {
-
+    
     e.preventDefault(); //don't refresh the page
     setIsSubmitted(true);
 
@@ -53,8 +53,6 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
     // Reset validation error if everything is filled
     setValidationError('');
     
-    setContactUser(user.user_id);
-
     const formData = new FormData();
   
     // Append fields to formData
@@ -64,7 +62,7 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
     formData.append('sex', sex);
     formData.append('animal_type', animal_type);
     formData.append('description', description);
-    formData.append('contact_user', contact_user);
+    formData.append('contact_user', userID);
     formData.append('area_of_adoption', area_of_adoption);
     formData.append('color', color);
     formData.append('get_along_with', get_along_with);
@@ -74,7 +72,6 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
     images_and_videos.forEach((file) => {
       formData.append('images_and_videos', file);
     });
-
     
     try {
       setLoading(true); // Set loading to true when submission starts
@@ -119,7 +116,6 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
       setBreed('');
       setHealthCondition('');
       setSpayOrNeuter('');
-      setContactUser('');
       setError(null);
       console.log("New animal added:", json);
 
@@ -151,7 +147,15 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
   // Access cities from context
   const { cities } = useContext(AnimalContext);
   // current Active user from context
-  const { user } = useContext(AuthContext); 
+  const { user } = useContext(AuthContext);
+
+  // Check if user is defined before accessing user_id
+  if (!user) {
+    return <div>Please log in to upload an animal.</div>;
+  }
+
+  const userID = user.user_id;
+
 
   return (
     <form className={styles.form} onSubmit={handleAnimalSubmit} noValidate>

@@ -9,10 +9,12 @@ const UploadSuccessMessage = ({ name, image, animal_id, onSubmissionSuccess}) =>
 
   const handleGoHome = () => {
     navigate('/');
+    window.location.reload(); // Refresh the page
   };
   const handleGoUpload = () => {
     onSubmissionSuccess(null); // Reset the submission data
     navigate('/UploadAnimal');
+    window.location.reload(); // Refresh the page
   };
 
   return (

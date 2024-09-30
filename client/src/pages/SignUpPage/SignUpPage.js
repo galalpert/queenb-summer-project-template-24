@@ -12,7 +12,7 @@ const SignUp = () => {
   // Handle successful sign-up
   const handleSignUpSuccess = (userData) => {
     setIsSignedUp(true);
-    setName(userData.user.name);
+    setName(userData.name);
     login(userData); // Automatically log in the user
   };
 
