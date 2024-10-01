@@ -17,7 +17,7 @@ const SignUpSuccessMessage = ({ name }) => {
 
   return (
     <div className={styles.successMessage}>
-      <h1>Thank you for signing up, {name}!</h1>
+      <h1>Thank you for signing up!</h1>
       <p>Your account has been created successfully.</p>
       <NavButton onClick={handleGoHome}>Go to Home</NavButton>
       <NavButton onClick={handleGoUpload}>Upload Animal</NavButton>
