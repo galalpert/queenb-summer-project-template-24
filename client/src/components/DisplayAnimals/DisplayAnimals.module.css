@@ -1,6 +1,13 @@
 .container {
     padding: 20px;
     border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px; /* רווח בין הכרטיסיות */
+    flex-wrap: wrap; /* מאפשר לשבור שורה במקרה שיש יותר כרטיסיות */
+    padding: 20px;
   }
   
   .title {
@@ -33,4 +40,5 @@
     font-weight: bold;
     color: #333;
   }
+
   
