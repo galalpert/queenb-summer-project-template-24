@@ -12,7 +12,7 @@ import LogoutButton from './components/LogoutButton/LogoutButton';
 
 
 function App() {
-  return ( 
+  return (
     <AuthProvider>
       <BrowserRouter>
         <AppContent /> 
