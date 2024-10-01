@@ -8,7 +8,6 @@ import styles from './styles/App.module.css';
 import NavButton from './components/common/NavButton/NavButton';
 import { AuthProvider, AuthContext } from './context/AuthContext'; 
 import LogoutButton from './components/LogoutButton/LogoutButton'; 
-
 import FilterModal from './components/Filtering/FilteringCom'
 
 function App() {
