@@ -102,6 +102,7 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
       const json = await response.json();
       const { animal } = json;
 
+
       // reset form after successful response
       setName('');
       setAgeYears(0);
@@ -133,6 +134,9 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
       setLoading(false); // Set loading to false when submission ends
     }
   };
+
+  const { animals, getAllAnimals} = useContext(AnimalContext);
+
 
   // Handle images input change
   const handleFiles = (e) => {

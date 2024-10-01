@@ -19,10 +19,6 @@ body {
   
 
 /* layout */
-:root {
-  --primary: #594a42;
-  --error: #e7195a;
-}
 body {
   background: #FFF0D1;
   margin: 0;
@@ -35,10 +31,6 @@ header .container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 10px 20px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
 }
 header a {
   color: #333;
@@ -50,28 +42,28 @@ header a {
   margin: 0 auto;
 }
 
-
 /* homepage */
 .home {
   gap: 100px;
 }
-
 .animal-item {
   background: #fff;
   border-radius: 4px;
+  height: 600px;
+  width: 600px;
   margin: 20px auto;
   padding: 20px;
   position:relative;
   box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 20px;
 }
 .animal-item h4 {
   margin: 0 0 10px 0;
-  font-size: 1.2em;
-  color: var(--primary);
-}
-.animal-item p {
-  margin: 0;
-  font-size: 0.9em;
+  font-size: 1.1em;
   color: #555;
 }
 .animal-item span {

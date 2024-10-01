@@ -1,8 +1,12 @@
 .image {
-  max-width: 100%; 
   height: auto;   
-  max-height: 400px;
+  max-height: 300px;
+  max-width: 300px;
   display: block; 
   margin: 0 auto;
   margin-bottom: 20px;
+  border-radius: 10px;
+  border: 3px solid #ddd;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
