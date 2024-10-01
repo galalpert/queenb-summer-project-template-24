@@ -9,8 +9,6 @@ import NavButton from './components/common/NavButton/NavButton';
 import { AuthProvider, AuthContext } from './context/AuthContext'; 
 import LogoutButton from './components/LogoutButton/LogoutButton'; 
 
-
-
 function App() {
   return (
     <AuthProvider>
