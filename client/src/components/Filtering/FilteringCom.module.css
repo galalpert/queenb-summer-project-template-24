@@ -1,3 +1,11 @@
+.modal-content h2 {
+  color: #000; /* Text color for 'Filter by' */
+}
+
+.slider-container label {
+  color: #000; /* Text color for 'Age Range 0 - 20' */
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -8,6 +16,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000; /* Ensure the overlay is above everything */
 }
 
 .modal-content {
@@ -16,6 +25,7 @@
   border-radius: 10px;
   text-align: center;
   width: 400px;
+  z-index: 1001; /* Ensure the modal content is above the overlay */
 }
 
 .tag-container {
