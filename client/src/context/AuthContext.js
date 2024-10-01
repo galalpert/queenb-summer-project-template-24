@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
 
   // This effect runs on component mount to check if a user is stored in localStorage
   useEffect(() => {
-    const savedUser = JSON.parse(localStorage.getItem('user'));
+    const savedUser = JSON.parse(localStorage.getItem('user')); 
     if (savedUser) {
       setUser(savedUser); // Restore the user if available
     }
