@@ -1,9 +1,14 @@
 import styles from "./UploadSuccessMessage.module.css";
+import { useContext} from "react";
 import { useNavigate } from 'react-router-dom';
 import NavButton from "../common/NavButton/NavButton";
 import React from "react";
+import { AuthContext } from "../../context/AuthContext";
+
 
 const UploadSuccessMessage = ({ name, image, animal_id, onSubmissionSuccess}) => {
+
+  const { user } = useContext(AuthContext); // current user
 
   const navigate = useNavigate();
 
@@ -17,7 +22,7 @@ const UploadSuccessMessage = ({ name, image, animal_id, onSubmissionSuccess}) =>
 
   return (
     <div>
-      <h1 className={styles.title}>Thank you for uploading a new Animal!</h1>
+      <h1 className={styles.title}>{user.name}, thank you for uploading a new Animal!</h1>
       <h2 className={styles.title}>{name} is ready to be adopted</h2>
       {image && (
         <img 

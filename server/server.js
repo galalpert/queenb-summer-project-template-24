@@ -21,10 +21,7 @@ app.use(express.static('server/AnimalUploadMedia'));
 //app.use('/media', express.static(path.join(__dirname, 'server/AnimalUploadMedia')));
 
 
-// הגדרת תיקיית קבצים סטטיים
 app.use('/media', express.static(path.join(__dirname, 'server/AnimalUploadMedia')));
-
-// שאר קוד השרת...
 
 
 // Middleware

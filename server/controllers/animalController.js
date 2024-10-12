@@ -4,7 +4,7 @@ const Animal = require('../models/AnimalModel');
 // get all animals
 const getAllAnimals = async (req, res) => {
     try {
-        const animals = await Animal.find();
+        const animals = await Animal.find().populate('contact_user');
         res.status(200).json(animals);
     } catch (err) {
         res.status(400).json({mssg: 'error getting animal', err})
@@ -17,7 +17,7 @@ const getSingleAnimal = async (req, res) => {
     const { id } = req.params; // Assuming you are passing the animal_id as a route parameter
 
     try {
-        const animal = await Animal.findOne({ animal_id: id }); // Search by animal_id instead of _id
+        const animal = await Animal.findOne({ animal_id: id }).populate('contact_user'); // Search by animal_id instead of _id
         if (!animal) {
             return res.status(404).json({ message: 'Animal not found' });
         }

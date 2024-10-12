@@ -76,7 +76,7 @@ const signUp = async (req, res) => {
     const authToken = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     // Respond with the authToken
-    res.status(201).json({ authToken });
+    res.status(201).json({ newUser, authToken });
   } catch (error) {
 
     res.status(500).send('Server error');

@@ -38,6 +38,18 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
   const [spay_neuter, setSpayOrNeuter] = useState('');
   const [error, setError] = useState('');
 
+  //context
+  const { user } = useContext(AuthContext); // Access the current active user
+  // Access cities from context
+  const { cities } = useContext(AnimalContext);
+  
+  // Check if user is defined before accessing user_id
+  if (!user) {
+    return <div>Please log in to upload an animal.</div>;
+  }
+
+  const userID = user._id; // Get user ID
+  console.log(userID)
 
   // Handle form submission
   const handleAnimalSubmit = async (e) => {
@@ -135,8 +147,6 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
     }
   };
 
-  const { animals, getAllAnimals} = useContext(AnimalContext);
-
 
   // Handle images input change
   const handleFiles = (e) => {
@@ -147,18 +157,6 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
   // Generate arrays for age dropdown options
   const years = Array.from({ length: 51 }, (_, i) => i); // 0 to 50 years
   const months = Array.from({ length: 12 }, (_, i) => i); // 0 to 11 months
-
-  // Access cities from context
-  const { cities } = useContext(AnimalContext);
-  // current Active user from context
-  const { user } = useContext(AuthContext);
-
-  // Check if user is defined before accessing user_id
-  if (!user) {
-    return <div>Please log in to upload an animal.</div>;
-  }
-
-  const userID = user.user_id;
 
 
   return (

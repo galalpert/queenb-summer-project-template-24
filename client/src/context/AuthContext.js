@@ -11,11 +11,22 @@ const AuthProvider = ({ children }) => {
 
   // This effect runs on component mount to check if a user and token are stored in localStorage
   useEffect(() => {
-    const savedUser = JSON.parse(localStorage.getItem('user'));
+    const savedUser = localStorage.getItem('user');
     const savedToken = localStorage.getItem('authToken');
 
-    if (savedUser && savedToken) {
-      setUser(savedUser);
+    // Only parse the user if it exists
+    if (savedUser) {
+      try {
+        const parsedUser = JSON.parse(savedUser);
+        setUser(parsedUser);
+      } catch (error) {
+        console.error('Error parsing user data from localStorage:', error);
+        // Optional: clear the corrupted data
+        localStorage.removeItem('user');
+      }
+    }
+
+    if (savedToken) {
       setAuthToken(savedToken);
     }
   }, []);
@@ -29,7 +40,7 @@ const AuthProvider = ({ children }) => {
     localStorage.setItem('user', JSON.stringify(userData));
     localStorage.setItem('authToken', token);
   };
-  
+
   // Signup function to save user and token
   const signup = (userData, token) => {
     setUser(userData);
@@ -52,9 +63,10 @@ const AuthProvider = ({ children }) => {
 
   // Provide the state and actions to the components that consume this context
   return (
-    <AuthContext.Provider value={{ user, authToken, login, logout }}>
+    <AuthContext.Provider value={{ user, authToken, login, logout, signup }}>
       {children}
     </AuthContext.Provider>
   );
 };
-export { AuthContext, AuthProvider}
+
+export { AuthContext, AuthProvider };

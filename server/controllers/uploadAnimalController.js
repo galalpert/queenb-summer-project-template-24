@@ -1,6 +1,7 @@
 const Animal = require('../models/AnimalModel');
 const multer = require('multer');
 const path = require('path');
+const mongoose = require('mongoose');
 
 const MB = 1024 * 1024; // Define how many bytes are in one MB
 const MAX_FILE_SIZE = 100*MB; // 1000 MB in bytes
@@ -95,14 +96,12 @@ const createAnimal = async (req, res) => {
     spay_neuter,
   } = req.body;
 
-  console.log(contact_user)
-  console.log("!!!!")
   // Use animal ID set by multer's filename function
   const animal_id = req.animal_id;
 
   // Access uploaded files from multer, filenames already include animal_id
   const images_and_videos = req.files.map(file => file.filename);
-  
+
   try {
     // Create a new animal
     const animal = await Animal.create({
@@ -117,7 +116,7 @@ const createAnimal = async (req, res) => {
       animal_type,
       images_and_videos, 
       description,
-      contact_user,
+      contact_user: new mongoose.Types.ObjectId(req.body.contact_user),
       area_of_adoption,
       color,
       // Default to empty string - non required filed
