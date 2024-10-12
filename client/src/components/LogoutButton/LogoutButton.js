@@ -14,7 +14,7 @@ const LogoutButton = () => {
 
 
   return (
-    <NavButton onClick={handleLogout}>Logout</NavButton>
+    <NavButton onClick={handleLogout}>LogOut</NavButton>
   );
 };
 
