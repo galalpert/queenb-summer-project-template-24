@@ -48,8 +48,8 @@ const UploadAnimalForm = ({onSubmissionSuccess}) => {
     return <div>Please log in to upload an animal.</div>;
   }
 
-  const userID = user.user_id; // Get user ID
-
+  const userID = user._id; // Get user ID
+  console.log(userID)
 
   // Handle form submission
   const handleAnimalSubmit = async (e) => {

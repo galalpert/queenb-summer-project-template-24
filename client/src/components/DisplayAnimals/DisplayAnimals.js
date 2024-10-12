@@ -4,7 +4,7 @@ import { AnimalContext } from '../../context/AnimalContext';
 import AnimalItem from '../AnimalItem/AnimalItem'
 
 
-const DispalyAnimals = () => {
+const DisplayAnimals = () => {
   const { animals} = useContext(AnimalContext);
 
   if (!animals) return null;
@@ -12,12 +12,12 @@ const DispalyAnimals = () => {
   console.log("animals", animals)
   return (
     <div className={styles.container}>
-        {animals && animals.map((animals) =>(
-                <AnimalItem key={animals.id} animals={animals}/> )
+        {animals && animals.map((animal) =>(
+                <AnimalItem key={animal.id} animals={animal}/> )
           )}
     </div>
     
   );
 };
 
-export default DispalyAnimals;
+export default DisplayAnimals;

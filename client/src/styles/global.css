@@ -49,17 +49,16 @@ header a {
 .animal-item {
   background: #fff;
   border-radius: 4px;
-  height: 600px;
-  width: 600px;
+  width: 600px; /* Fixed width for consistency */
   margin: 20px auto;
   padding: 20px;
-  position:relative;
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
-  padding: 20px;
+  position: relative;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  display: flex; /* Enable flexbox for layout */
+  flex-direction: column; /* Stack items vertically */
+  justify-content: flex-start; /* Align items at the top */
+  align-items: center; /* Center items horizontally */
+  gap: 20px; /* Space between child elements */
 }
 .animal-item h4 {
   margin: 0 0 10px 0;
