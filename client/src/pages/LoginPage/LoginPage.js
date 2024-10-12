@@ -74,13 +74,13 @@ const LoginPage = () => {
           <div className={styles.submitButton}>
             <button type="submit">Login</button>
           </div>
-        </form>
+      </form>
         {/* Display error message if login fails */}
         {errorMessage && <p className={styles.error}>{errorMessage}</p>}
 
         {/* Display success message when login is successful */}
         {successMessage && <p className={styles.success}>{successMessage}</p>}
-      </div>
+    </div>
   );
 };
 
