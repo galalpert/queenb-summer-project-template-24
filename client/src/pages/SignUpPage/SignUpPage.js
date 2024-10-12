@@ -12,8 +12,9 @@ const SignUp = () => {
   // Handle successful sign-up
   const handleSignUpSuccess = (userData) => {
     setIsSignedUp(true);
-    setName(userData.name);
-    login(userData); // Automatically log in the user
+    const { newUser, authToken } = userData;
+    setName(newUser.name);
+    login(newUser, authToken); // Automatically log in the user
   };
 
   useEffect(() => {

@@ -5,7 +5,7 @@ import AnimalItem from '../AnimalItem/AnimalItem'
 
 
 const DispalyAnimals = () => {
-  const { animals, getAllAnimals} = useContext(AnimalContext);
+  const { animals} = useContext(AnimalContext);
 
   if (!animals) return null;
 
