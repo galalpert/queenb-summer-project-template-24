@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
+import NavButton from '../common/NavButton/NavButton.js';
 
 const LogoutButton = () => {
   const { logout } = useContext(AuthContext); // Access the logout function from context
@@ -13,7 +14,7 @@ const LogoutButton = () => {
 
 
   return (
-    <button onClick={handleLogout}>Logout</button>
+    <NavButton onClick={handleLogout}>Logout</NavButton>
   );
 };
 
