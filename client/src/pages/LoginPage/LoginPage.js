@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import styles from '../../styles/global.css';
+import styles from '../../components/SignUpForm/SignUpForm.module.css';
 
 const LoginPage = () => {
   const { login } = useContext(AuthContext); // Access login function from context
@@ -48,31 +48,39 @@ const LoginPage = () => {
   };
 
   return (
-    <div className={styles.loginContainer}>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin} className={styles.loginForm}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Login</button>
-      </form>
-       {/* Display error message if login fails */}
-       {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+    <div>
+      <form onSubmit={handleLogin} className={styles.form}>
+        <h2 className={styles.title}>Login</h2>
+        <div className={styles.field}>
+            <label className={styles.label}>Enter Email:</label>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+        </div>
+        <div className={styles.field}>
+          <label className={styles.label}>Enter Password:</label>
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+          <div className={styles.submitButton}>
+            <button type="submit">Login</button>
+          </div>
+        </form>
+        {/* Display error message if login fails */}
+        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
 
-      {/* Display success message when login is successful */}
-      {successMessage && <p className={styles.success}>{successMessage}</p>}
-    </div>
+        {/* Display success message when login is successful */}
+        {successMessage && <p className={styles.success}>{successMessage}</p>}
+      </div>
   );
 };
 
