@@ -95,8 +95,6 @@ const createAnimal = async (req, res) => {
     spay_neuter,
   } = req.body;
 
-  console.log(contact_user)
-  console.log("!!!!")
   // Use animal ID set by multer's filename function
   const animal_id = req.animal_id;
 
