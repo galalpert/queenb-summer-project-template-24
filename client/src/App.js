@@ -49,7 +49,7 @@ const AppContent = () => {
           {!user ? (
             <>
               <Link to="/LoginPage" className={styles.appLink}>
-                <NavButton>Login</NavButton>
+                <NavButton>LogIn</NavButton>
               </Link>
               <Link to="/SignUpPage" className={styles.appLink}>
                 <NavButton>Sign up</NavButton>
